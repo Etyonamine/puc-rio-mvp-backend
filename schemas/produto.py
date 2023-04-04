@@ -17,6 +17,7 @@ class ProdutoBuscaSchema(BaseModel):
     """ Define como deve ser a estrutura que representa a busca. Que será
         feita apenas com base no nome do produto.
     """
+    id: int = 1
     nome: str = "Teste"
 
 
