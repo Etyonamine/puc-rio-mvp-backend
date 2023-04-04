@@ -4,7 +4,7 @@ from urllib.parse import unquote
 
 from sqlalchemy.exc import IntegrityError
 
-from model import Session, Produto, Comentario
+from model import Session, Produto, Comentario, Cliente
 from logger import logger
 from schemas import *
 from flask_cors import CORS
@@ -17,13 +17,57 @@ CORS(app)
 home_tag = Tag(name="Documentação", description="Seleção de documentação: Swagger, Redoc ou RapiDoc")
 produto_tag = Tag(name="Produto", description="Adição, visualização e remoção de produtos à base")
 comentario_tag = Tag(name="Comentario", description="Adição de um comentário à um produtos cadastrado na base")
-
+cliente_tag =  Tag(name="Cliente", description="Adição, visualização e remoção de clientes à base")
 
 @app.get('/', tags=[home_tag])
 def home():
     """Redireciona para /openapi, tela que permite a escolha do estilo de documentação.
     """
     return redirect('/openapi')
+
+@app.get('/cliente', tags=[cliente_tag], responses={"200":ListagemClienteSchema, "404":ErrorSchema})
+def get_clientes():
+    """ faz a busca por todos os clientes cadastrados
+
+    Retorna uma representacao da listagem de clientes
+    """
+    logger.debug(f"Coletando clientes ")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    clientes = session.query(Cliente).all()
+
+    if not clientes:
+        # se não há produtos cadastrados
+        return {"clientes": []}, 200
+    else:
+        logger.debug(f"%d clientes encontrados" % len(clientes))
+        # retorna a representação de cliente
+        print(clientes)
+        return apresenta_produtos(clientes), 200
+
+@app.get('/cliente', tags=[cliente_tag], responses={"200":ClienteViewSchema, "404": ErrorSchema})
+def get_cliente(query: ClienteBuscaSchema):
+    """ Faz a busca por um cliente a partir do nome do cliente
+
+    Retorna uma representação dos clientes 
+    """
+    cliente_nome = query.nome
+    logger.debug(f"Coletando dados sobre cliente {cliente_nome}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    cliente = session.query(Cliente).filter(Cliente.nome == cliente_nome).first()
+
+    if not cliente:
+        # se o cliente não for encontrado
+        error_msg = "Produto não encontrado na base :/"
+        logger.warning(f"Erro ao buscar produto '{cliente_nome}', {error_msg}")
+        return {"mesage": error_msg}, 404
+    else:
+        logger.debug(f"Produto econtrado: '{cliente.nome}'")
+        # retorna a representação de produto
+        return apresenta_cliente(cliente), 200
 
 
 @app.post('/produto', tags=[produto_tag],
