@@ -1,0 +1,60 @@
+[2023-04-05 00:02:44,752] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:02:44] "[35m[1mPOST /agendamento HTTP/1.1[0m" 500 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:03:39,418] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:03:39] "GET /openapi/swagger HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:03:39,500] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:03:39] "[36mGET /openapi/static/css/swagger-ui.css HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:03:39,511] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:03:39] "[36mGET /openapi/static/js/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:03:39,512] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:03:39] "[36mGET /openapi/static/js/swagger-ui-bundle.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:03:39,614] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:03:39] "GET /openapi/openapi.json HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:03:39,619] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:03:39] "[36mGET /openapi/static/images/swagger.svg HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:03:49,269] ERROR log_exception() L1449 Exception on /agendamento [POST] - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py L1449
+Traceback (most recent call last):
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1519, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_cors\extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1517, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1503, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_openapi3\scaffold.py", line 191, in wrapper
+    resp = _do_wrapper(
+           ^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_openapi3\do_wrapper.py", line 135, in _do_wrapper
+    response = func(**request_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py", line 46, in add_agendamento
+    agendamento = Agendamento(
+                  ^^^^^^^^^^^^
+  File "<string>", line 4, in __init__
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\sqlalchemy\orm\state.py", line 481, in _initialize_instance
+    with util.safe_reraise():
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\sqlalchemy\util\compat.py", line 208, in raise_
+    raise exception
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\sqlalchemy\orm\state.py", line 479, in _initialize_instance
+    return manager.original_init(*mixed[1:], **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\model\agendamento.py", line 25, in __init__
+    self.profissional = profissional_id
+    ^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 460, in __set__
+    self.impl.set(
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 1269, in set
+    value = self.fire_replace_event(state, dict_, value, old, initiator)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 1295, in fire_replace_event
+    value = fn(
+            ^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\sqlalchemy\orm\attributes.py", line 1730, in emit_backref_from_scalar_set_event
+    instance_state(child),
+    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'int' object has no attribute '_sa_instance_state'
+[2023-04-05 00:03:49,273] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:03:49] "[35m[1mPOST /agendamento HTTP/1.1[0m" 500 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:04:55,466] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:04:55] "GET /profissional HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 

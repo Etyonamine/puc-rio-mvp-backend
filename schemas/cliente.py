@@ -18,12 +18,12 @@ class ClienteBuscaSchema(BaseModel):
 
 
 class ListagemClienteSchema(BaseModel):
-    """ Define como uma listagem de produtos será retornada.
+    """ Define como uma listagem de clientes que será retornada.
     """
     clientes:List[ClienteSchema]
 
-def apresenta_clientes(clientes: List[Cliente]):
-    """ Retorna uma representação do produto seguido o schema definido em 
+def apresenta_clientes(clientes: List[Cliente]):    
+    """ Retorna uma representação do cliente seguido o schema definido em 
         ClienteViewSchema
     """
     result=[]
@@ -32,18 +32,29 @@ def apresenta_clientes(clientes: List[Cliente]):
             "nome": cliente.nome
         })
     return {"clientes": result}
-
+    
 class ClienteViewSchema(BaseModel):
-    """ Define como um produto será retornado: produto + comentários.
+    """ Define como um cliente que será retornado: cliente
     """
     id: int = 1
     nome: str = "Junior"
+
+class ClienteEditSchema(BaseModel):
+    """ Define como editar um cliente 
+    """
+    id: int = 1
+    nome: str = "Junior"
+class ClienteDelSchema(BaseModel):
+    """ Define como deve ser a estrutura do dado retornado após uma requisição
+        de remoção.
+    """
+    mesage: str
+    nome: str
 
 def apresenta_cliente(cliente: Cliente):
     """  Retorna uma representação do cliente seguindo o schema definido em 
         ClienteViewSchema
     """
-    return {
-        "id": cliente.id,
+    return {       
         "nome": cliente.nome
     }

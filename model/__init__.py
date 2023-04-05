@@ -5,7 +5,10 @@ import os
 
 # importando os elementos definidos no modelo
 from model.base import Base
+from model.agendamento import Agendamento
 from model.cliente import Cliente
+from model.profissional import Profissional
+from model.servico import Servico
 from model.comentario import Comentario
 from model.produto import Produto
 

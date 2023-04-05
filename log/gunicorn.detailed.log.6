@@ -1,0 +1,89 @@
+[2023-04-05 00:11:10,346] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:11:10] "[31m[1mPOST /agendamento HTTP/1.1[0m" 400 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:13:28,823] WARNING add_agendamento() L73   Erro ao adicionar cliente '2023-04-01 e cliente ID #Agendamento.cliente_id', Não foi possível salvar novo item :/ - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py L73  
+[2023-04-05 00:13:28,824] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:13:28] "[31m[1mPOST /agendamento HTTP/1.1[0m" 400 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:14:05,650] INFO _log() L224   * Running on all addresses (0.0.0.0)
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.15.138:5000 (Press CTRL+C to quit) - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:14:08,438] WARNING add_agendamento() L73   erro <bound method SQLAlchemyError.__str__ of StatementError('(builtins.TypeError) SQLite DateTime type only accepts Python datetime and date objects as input.')> - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py L73  
+[2023-04-05 00:14:08,439] WARNING add_agendamento() L74   Erro ao adicionar o agendamento com data '2023-04-01 e cliente ID #Agendamento.cliente_id', Não foi possível salvar novo item :/ - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py L74  
+[2023-04-05 00:14:08,440] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:14:08] "[31m[1mPOST /agendamento HTTP/1.1[0m" 400 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:17:29,358] INFO _log() L224   * Running on all addresses (0.0.0.0)
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.15.138:5000 (Press CTRL+C to quit) - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:17:36,283] ERROR log_exception() L1449 Exception on /agendamento [POST] - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py L1449
+Traceback (most recent call last):
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1519, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_cors\extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1517, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1503, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_openapi3\scaffold.py", line 191, in wrapper
+    resp = _do_wrapper(
+           ^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_openapi3\do_wrapper.py", line 135, in _do_wrapper
+    response = func(**request_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py", line 47, in add_agendamento
+    data_agenda=  datetime.strptime(form.data, '%m/%d/%y %H:%M:%S') ,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\edumi\AppData\Local\Programs\Python\Python311\Lib\_strptime.py", line 568, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\edumi\AppData\Local\Programs\Python\Python311\Lib\_strptime.py", line 349, in _strptime
+    raise ValueError("time data %r does not match format %r" %
+ValueError: time data '2023-04-01' does not match format '%m/%d/%y %H:%M:%S'
+[2023-04-05 00:17:36,290] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:17:36] "[35m[1mPOST /agendamento HTTP/1.1[0m" 500 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:17:59,106] ERROR log_exception() L1449 Exception on /agendamento [POST] - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py L1449
+Traceback (most recent call last):
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1519, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_cors\extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1517, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1503, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_openapi3\scaffold.py", line 191, in wrapper
+    resp = _do_wrapper(
+           ^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_openapi3\do_wrapper.py", line 135, in _do_wrapper
+    response = func(**request_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py", line 47, in add_agendamento
+    data_agenda=  datetime.strptime(form.data, '%m/%d/%y %H:%M:%S') ,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\edumi\AppData\Local\Programs\Python\Python311\Lib\_strptime.py", line 568, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\edumi\AppData\Local\Programs\Python\Python311\Lib\_strptime.py", line 349, in _strptime
+    raise ValueError("time data %r does not match format %r" %
+ValueError: time data '2023-04-01 15:00:00' does not match format '%m/%d/%y %H:%M:%S'
+[2023-04-05 00:17:59,108] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:17:59] "[35m[1mPOST /agendamento HTTP/1.1[0m" 500 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:20:15,768] INFO _log() L224   * Running on all addresses (0.0.0.0)
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.15.138:5000 (Press CTRL+C to quit) - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:20:19,347] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:20:19] "GET /openapi/swagger HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:20:19,443] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:20:19] "[36mGET /openapi/static/css/swagger-ui.css HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:20:19,450] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:20:19] "[36mGET /openapi/static/js/swagger-ui-bundle.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:20:19,451] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:20:19] "[36mGET /openapi/static/js/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-05 00:20:19,586] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 00:20:19] "GET /openapi/openapi.json HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
