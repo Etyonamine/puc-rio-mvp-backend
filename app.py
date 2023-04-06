@@ -18,6 +18,7 @@ home_tag = Tag(name="Documentação", description="Seleção de documentação: 
 produto_tag = Tag(name="Produto", description="Adição, visualização e remoção de produtos à base")
 comentario_tag = Tag(name="Comentario", description="Adição de um comentário à um produtos cadastrado na base")
 cliente_tag =  Tag(name="Cliente", description="Adição, visualização e remoção de clientes à base")
+profissional_tag = Tag(name="Profissional", description="Adição, visualização e remoção de clientes à base")
 
 @app.get('/', tags=[home_tag])
 def home():
@@ -25,7 +26,98 @@ def home():
     """
     return redirect('/openapi')
 
-@app.get('/cliente', tags=[cliente_tag], responses={"200":ListagemClienteSchema, "404":ErrorSchema})
+@app.post('/cliente', tags=[cliente_tag],
+responses={"200":ClienteViewSchema, "409": ErrorSchema, "400": ErrorSchema})
+def add_cliente(form: ClienteSchema):
+    """ Adiciona um novo cliente à base de dados
+
+    Retorna uma representação do cliente.
+    """
+    cliente = Cliente(
+        nome= form.nome
+    )
+    logger.debug(f"Adicionando cliente de nome: '{cliente.nome}'")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # adicionando cliente
+        session.add(cliente)
+        # efetivando o comando de adição de novo item na tabela
+        session.commit()
+        logger.debug(f"Adicionado cliente de nome: '{cliente.nome}'")
+        return apresenta_cliente(cliente), 200
+
+    except IntegrityError as e:
+        # como a duplicidade do nome é a provável razão do IntegrityError
+        error_msg = "Cliente de mesmo nome já salvo na base :/"
+        logger.warning(f"Erro ao adicionar cliente '{cliente.nome}', {error_msg}")
+        return {"mesage": error_msg}, 409
+
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível salvar novo item :/"
+        logger.warning(f"Erro ao adicionar cliente '{cliente.nome}', {error_msg}")
+        return {"mesage": error_msg}, 400
+
+@app.put('/cliente', tags=[cliente_tag],
+         responses={"200":ClienteEditSchema, "404": ErrorSchema})
+def put_cliente(form:ClienteViewSchema):
+    """ Edita um cliente já cadastrado na base de dados
+
+    Retorna uma mensagem de confirmação da atualização
+    """
+    id = form.id      
+    nome = unquote(unquote(form.nome))
+    
+
+    logger.debug(f"Editando o Cliente {nome}")
+
+    # criando conexão com a base
+    session = Session()
+    # fazendo a consulta para verificar se ja existe a descricao com outro codigo
+    cliente = session.query(Cliente).filter(Cliente.nome == nome and Cliente.id != id).first()
+    
+    if cliente:
+        # se o cliente foi encontrado retorna sem dar o commit
+        error_msg = "Cliente já cadastrado na base"
+        logger.warning(f"Erro ao editar o cliente '{cliente.nome}', {error_msg}")
+        return {"message": error_msg}, 404
+    else:
+        count = session.query(Cliente).filter(Cliente.id == id).update({"nome":nome})        
+        session.commit()
+        if count:
+            # retorna a representação da mensagem de confirmação
+            logger.debug(f"Editado o cliente {nome}")        
+            return {"message": "Cliente editado com sucesso!", "id": id}
+        else:
+            error_msg = "Ocorreu algum erro ao tentar ao atualizar o cliente"
+            logger.warning(f"Erro ao editar o cliente '{nome}', {error_msg}")
+            return {"message": error_msg}, 404
+
+@app.delete('/cliente', tags=[cliente_tag],
+            responses={"200":ClienteDelSchema, "404":ErrorSchema})        
+def del_cliente(form:ClenteBuscaDeleteSchema):
+    id = form.id
+    logger.debug(f"Excluindo o Cliente ID #{id}")
+     # criando conexão com a base
+    session = Session()
+    # fazendo a remoção
+    count = session.query(Cliente).filter(Cliente.id == id).delete()
+    session.commit()
+
+    if count:
+        # retorna a representação da mensagem de confirmação
+        logger.debug(f"Excluindo o cliente ID #{id}")
+        return {"mesage": "Cliente removido", "id": id}
+    else:
+        # se o cliente não foi encontrado
+        error_msg = "Cliente não encontrado na base :/"
+        logger.warning(f"Erro ao excluir o cliente #'{id}', {error_msg}")
+        return {"mesage": error_msg}, 404
+
+
+@app.get('/clientes', tags=[cliente_tag], 
+         responses={"200":ListagemClienteSchema, "404":ErrorSchema})
 def get_clientes():
     """ faz a busca por todos os clientes cadastrados
 
@@ -44,13 +136,15 @@ def get_clientes():
         logger.debug(f"%d clientes encontrados" % len(clientes))
         # retorna a representação de cliente
         print(clientes)
-        return apresenta_produtos(clientes), 200
+        return apresenta_clientes(clientes), 200
 
-@app.get('/cliente', tags=[cliente_tag], responses={"200":ClienteViewSchema, "404": ErrorSchema})
+
+@app.get('/cliente', tags=[cliente_tag], 
+         responses={"200":ClienteViewSchema, "404": ErrorSchema})
 def get_cliente(query: ClienteBuscaSchema):
     """ Faz a busca por um cliente a partir do nome do cliente
 
-    Retorna uma representação dos clientes 
+    Retorna uma representação do cliente
     """
     cliente_nome = query.nome
     logger.debug(f"Coletando dados sobre cliente {cliente_nome}")
@@ -61,12 +155,12 @@ def get_cliente(query: ClienteBuscaSchema):
 
     if not cliente:
         # se o cliente não for encontrado
-        error_msg = "Produto não encontrado na base :/"
-        logger.warning(f"Erro ao buscar produto '{cliente_nome}', {error_msg}")
+        error_msg = "Cliente não encontrado na base :/"
+        logger.warning(f"Erro ao buscar o cliente '{cliente_nome}', {error_msg}")
         return {"mesage": error_msg}, 404
     else:
-        logger.debug(f"Produto econtrado: '{cliente.nome}'")
-        # retorna a representação de produto
+        logger.debug(f"Cliente encontrado: '{cliente.nome}'")
+        # retorna a representação de cliente
         return apresenta_cliente(cliente), 200
 
 

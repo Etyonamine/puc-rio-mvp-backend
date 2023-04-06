@@ -7,7 +7,8 @@ from  model import Base
 
 class ClienteSchema(BaseModel):
     """ Define com um novo cliente a ser inserido
-    """
+    """    
+    id: int = 1
     nome: str = "Junior"
 
 class ClienteBuscaSchema(BaseModel):
@@ -16,6 +17,12 @@ class ClienteBuscaSchema(BaseModel):
     """
     nome: str = "João"
 
+class ClenteBuscaDeleteSchema(BaseModel):
+    """ Define como deve ser a estrutura que representa a busca
+        para a remoção do cliente
+
+    """
+    id: int = 1
 
 class ListagemClienteSchema(BaseModel):
     """ Define como uma listagem de clientes que será retornada.
@@ -29,6 +36,7 @@ def apresenta_clientes(clientes: List[Cliente]):
     result=[]
     for cliente in clientes:
         result.append({
+            "id": cliente.id,
             "nome": cliente.nome
         })
     return {"clientes": result}
@@ -40,10 +48,11 @@ class ClienteViewSchema(BaseModel):
     nome: str = "Junior"
 
 class ClienteEditSchema(BaseModel):
-    """ Define como editar um cliente 
+    """ Define como o retorno do editar um cliente 
     """
-    id: int = 1
-    nome: str = "Junior"
+    mesage: str
+    nome: str
+
 class ClienteDelSchema(BaseModel):
     """ Define como deve ser a estrutura do dado retornado após uma requisição
         de remoção.
@@ -55,6 +64,7 @@ def apresenta_cliente(cliente: Cliente):
     """  Retorna uma representação do cliente seguindo o schema definido em 
         ClienteViewSchema
     """
-    return {       
+    return {    
+        "id": cliente.id,   
         "nome": cliente.nome
     }
