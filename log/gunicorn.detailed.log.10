@@ -1,60 +1,49 @@
-[2023-04-05 23:30:10,028] INFO _log() L224   * Restarting with stat - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:30:38,947] ERROR log_exception() L1449 Exception on /cliente [PUT] - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py L1449
+[2023-04-06 01:05:58,403] INFO _log() L224   * Restarting with stat - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:06:01,002] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:06:01] "GET /openapi/swagger HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:06:01,082] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:06:01] "[36mGET /openapi/static/css/swagger-ui.css HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:06:01,094] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:06:01] "[36mGET /openapi/static/js/swagger-ui-bundle.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:06:01,099] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:06:01] "[36mGET /openapi/static/js/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:06:01,160] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:06:01] "GET /openapi/openapi.json HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:06:01,199] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:06:01] "[36mGET /openapi/static/images/swagger.svg HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:06:05,379] WARNING put_cliente() L93   Erro ao editar o cliente 'Junior', O cliente com ID 133 não foi encontrado na base - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py L93  
+[2023-04-06 01:06:05,380] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:06:05] "[33mPUT /cliente HTTP/1.1[0m" 404 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:06:45,766] INFO _log() L224   * Detected change in 'C:\\PUC-RIO\\Sprint-1\\BackEnd\\puc-rio-mvp-sprint-1-back-end\\app.py', reloading - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:06:45,850] INFO _log() L224   * Restarting with stat - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:08:08,716] INFO _log() L224   * Detected change in 'C:\\PUC-RIO\\Sprint-1\\BackEnd\\puc-rio-mvp-sprint-1-back-end\\app.py', reloading - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:08:08,780] INFO _log() L224   * Restarting with stat - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:08:14,547] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:08:14] "GET /openapi/swagger HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:08:14,631] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:08:14] "[36mGET /openapi/static/css/swagger-ui.css HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:08:14,641] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:08:14] "[36mGET /openapi/static/js/swagger-ui-bundle.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:08:14,645] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:08:14] "[36mGET /openapi/static/js/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:08:14,775] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:08:14] "GET /openapi/openapi.json HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:08:14,830] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:08:14] "[36mGET /openapi/static/images/swagger.svg HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:08:19,117] WARNING put_cliente() L93   Erro ao editar o cliente 'Junior', O cliente com ID 133 não foi encontrado na base - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py L93  
+[2023-04-06 01:08:19,117] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:08:19] "[33mPUT /cliente HTTP/1.1[0m" 404 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:10:52,156] INFO _log() L224   * Detected change in 'C:\\PUC-RIO\\Sprint-1\\BackEnd\\puc-rio-mvp-sprint-1-back-end\\app.py', reloading - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:10:52,239] INFO _log() L224   * Restarting with stat - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:11:13,386] INFO _log() L224   * Detected change in 'C:\\PUC-RIO\\Sprint-1\\BackEnd\\puc-rio-mvp-sprint-1-back-end\\app.py', reloading - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:11:13,457] INFO _log() L224   * Restarting with stat - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:12:29,905] INFO _log() L224   * Detected change in 'C:\\PUC-RIO\\Sprint-1\\BackEnd\\puc-rio-mvp-sprint-1-back-end\\app.py', reloading - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:12:29,982] INFO _log() L224   * Restarting with stat - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:12:34,406] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:12:34] "GET /openapi/swagger HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:12:34,491] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:12:34] "[36mGET /openapi/static/css/swagger-ui.css HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:12:34,502] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:12:34] "[36mGET /openapi/static/js/swagger-ui-bundle.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:12:34,504] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:12:34] "[36mGET /openapi/static/js/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:12:34,619] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:12:34] "GET /openapi/openapi.json HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:12:34,624] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:12:34] "[36mGET /openapi/static/images/swagger.svg HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-06 01:12:40,463] WARNING del_cliente() L125  Erro ao excluir o cliente #'1344', Cliente não encontrado na base :/ - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py L125 
+[2023-04-06 01:12:40,464] ERROR log_exception() L1449 Exception on /cliente [DELETE] - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py L1449
 Traceback (most recent call last):
   File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 2073, in wsgi_app
     response = self.full_dispatch_request()
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1519, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_cors\extension.py", line 165, in wrapped_function
-    return cors_after_request(app.make_response(f(*args, **kwargs)))
-                                                ^^^^^^^^^^^^^^^^^^
-  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1517, in full_dispatch_request
-    rv = self.dispatch_request()
-         ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1503, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_openapi3\scaffold.py", line 273, in wrapper
-    resp = _do_wrapper(
-           ^^^^^^^^^^^^
-  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_openapi3\do_wrapper.py", line 135, in _do_wrapper
-    response = func(**request_kwargs)
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1520, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1539, in finalize_request
+    response = self.make_response(rv)
                ^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py", line 90, in put_cliente
-    logger.debug(f"Editado o cliente {cliente.nome}")
-                              ^^^^^^^^^^^^
-AttributeError: 'NoneType' object has no attribute 'nome'
-[2023-04-05 23:30:38,951] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:30:38] "[35m[1mPUT /cliente HTTP/1.1[0m" 500 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:31:05,645] INFO _log() L224   * Detected change in 'C:\\PUC-RIO\\Sprint-1\\BackEnd\\puc-rio-mvp-sprint-1-back-end\\app.py', reloading - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:31:05,725] INFO _log() L224   * Restarting with stat - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:31:11,229] WARNING put_cliente() L83   Erro ao editar o cliente 'Eduardo Toshio Yonamine', Cliente já cadastrado na base - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py L83  
-[2023-04-05 23:31:11,230] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:31:11] "[33mPUT /cliente HTTP/1.1[0m" 404 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:31:16,434] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:31:16] "GET /clientes HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:31:25,319] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:31:25] "PUT /cliente HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:31:29,916] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:31:29] "GET /clientes HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:31:40,478] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:31:40] "PUT /cliente HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:31:52,010] WARNING put_cliente() L83   Erro ao editar o cliente 'Rogerio', Cliente já cadastrado na base - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py L83  
-[2023-04-05 23:31:52,010] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:31:52] "[33mPUT /cliente HTTP/1.1[0m" 404 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:32:01,756] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:32:01] "GET /clientes HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:32:27,041] WARNING add_cliente() L59   Erro ao adicionar cliente 'Ruy', Não foi possível salvar novo item :/ - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py L59  
-[2023-04-05 23:32:27,042] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:32:27] "[31m[1mPOST /cliente HTTP/1.1[0m" 400 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:32:51,957] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:32:51] "GET /clientes HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:34:09,119] INFO _log() L224   * Detected change in 'C:\\PUC-RIO\\Sprint-1\\BackEnd\\puc-rio-mvp-sprint-1-back-end\\app.py', reloading - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:34:09,190] INFO _log() L224   * Restarting with stat - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:34:35,554] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:34:35] "POST /cliente HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:35:43,544] INFO _log() L224   * Detected change in 'C:\\PUC-RIO\\Sprint-1\\BackEnd\\puc-rio-mvp-sprint-1-back-end\\schemas\\cliente.py', reloading - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:35:43,616] INFO _log() L224   * Restarting with stat - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:35:58,588] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:35:58] "POST /cliente HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:36:03,655] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:36:03] "GET /openapi/swagger HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:36:03,743] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:36:03] "[36mGET /openapi/static/css/swagger-ui.css HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:36:03,757] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:36:03] "[36mGET /openapi/static/js/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:36:03,760] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:36:03] "[36mGET /openapi/static/js/swagger-ui-bundle.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:36:03,907] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:36:03] "GET /openapi/openapi.json HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:36:03,962] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:36:03] "[36mGET /openapi/static/images/swagger.svg HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:36:27,881] INFO _log() L224   * Detected change in 'C:\\PUC-RIO\\Sprint-1\\BackEnd\\puc-rio-mvp-sprint-1-back-end\\schemas\\cliente.py', reloading - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:36:27,945] INFO _log() L224   * Restarting with stat - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:37:13,217] INFO _log() L224   * Detected change in 'C:\\PUC-RIO\\Sprint-1\\BackEnd\\puc-rio-mvp-sprint-1-back-end\\schemas\\cliente.py', reloading - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:37:13,288] INFO _log() L224   * Restarting with stat - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-05 23:37:31,320] INFO _log() L224  127.0.0.1 - - [05/Apr/2023 23:37:31] "POST /cliente HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1695, in make_response
+    raise TypeError(
+TypeError: The view function for 'del_cliente' did not return a valid response. The function either returned None or ended without a return statement.
+[2023-04-06 01:12:40,466] INFO _log() L224  127.0.0.1 - - [06/Apr/2023 01:12:40] "[35m[1mDELETE /cliente HTTP/1.1[0m" 500 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 

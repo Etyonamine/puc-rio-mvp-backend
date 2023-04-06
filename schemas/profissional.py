@@ -8,6 +8,7 @@ from  model import Base
 class ProfissionalSchema(BaseModel):
     """ Define com um novo profissional a ser inserido
     """
+    id: int = 1
     nome: str = "Junior"
 
 class ProfissionalBuscaSchema(BaseModel):
@@ -16,11 +17,11 @@ class ProfissionalBuscaSchema(BaseModel):
     """
     nome: str = "João"
 
-class ProfissionalEditSchema(BaseModel):
-    """ Define como editar um profissional
+class ProfissionalBuscaExclusaoSchema(BaseModel):
+    """Define como será a estrutura que representa a busca.
+       que será feita apenas com base no Id do profissional
     """
     id: int = 1
-    nome: str = "Marcos"
 
 class ListagemProfissionalSchema(BaseModel):
     """ Define como uma listagem de profissionais que será retornada.

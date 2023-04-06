@@ -6,32 +6,29 @@ from typing import List
 from  model import Base
 
 class ClienteSchema(BaseModel):
-    """ Define com um novo cliente a ser inserido
-    """    
+    """Define com um novo cliente a ser inserido"""    
     id: int = 1
     nome: str = "Junior"
 
 class ClienteBuscaSchema(BaseModel):
-    """ Define como deve ser a estrutura que representa a busca.Que será 
+    """Define como deve ser a estrutura que representa a busca.Que será 
         feita apenas com base no nome do cliente
     """
     nome: str = "João"
 
 class ClenteBuscaDeleteSchema(BaseModel):
-    """ Define como deve ser a estrutura que representa a busca
+    """Define como deve ser a estrutura que representa a busca
         para a remoção do cliente
-
     """
     id: int = 1
 
 class ListagemClienteSchema(BaseModel):
-    """ Define como uma listagem de clientes que será retornada.
-    """
+    """ Define como uma listagem de clientes que será retornada."""
     clientes:List[ClienteSchema]
 
 def apresenta_clientes(clientes: List[Cliente]):    
     """ Retorna uma representação do cliente seguido o schema definido em 
-        ClienteViewSchema
+        ClienteViewSchema        
     """
     result=[]
     for cliente in clientes:
@@ -46,12 +43,6 @@ class ClienteViewSchema(BaseModel):
     """
     id: int = 1
     nome: str = "Junior"
-
-class ClienteEditSchema(BaseModel):
-    """ Define como o retorno do editar um cliente 
-    """
-    mesage: str
-    nome: str
 
 class ClienteDelSchema(BaseModel):
     """ Define como deve ser a estrutura do dado retornado após uma requisição

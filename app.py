@@ -4,7 +4,7 @@ from urllib.parse import unquote
 
 from sqlalchemy.exc import IntegrityError
 
-from model import Session, Produto, Comentario, Cliente
+from model import Session, Produto, Comentario, Cliente, Profissional
 from logger import logger
 from schemas import *
 from flask_cors import CORS
@@ -26,10 +26,11 @@ def home():
     """
     return redirect('/openapi')
 
+
 @app.post('/cliente', tags=[cliente_tag],
 responses={"200":ClienteViewSchema, "409": ErrorSchema, "400": ErrorSchema})
 def add_cliente(form: ClienteSchema):
-    """ Adiciona um novo cliente à base de dados
+    """Adiciona um novo cliente à base de dados
 
     Retorna uma representação do cliente.
     """
@@ -59,67 +60,88 @@ def add_cliente(form: ClienteSchema):
         logger.warning(f"Erro ao adicionar cliente '{cliente.nome}', {error_msg}")
         return {"mesage": error_msg}, 400
 
+
 @app.put('/cliente', tags=[cliente_tag],
-         responses={"200":ClienteEditSchema, "404": ErrorSchema})
+         responses={"204":None, "400": ErrorSchema, "404": None, "500": ErrorSchema})
 def put_cliente(form:ClienteViewSchema):
-    """ Edita um cliente já cadastrado na base de dados
+    """Edita um cliente já cadastrado na base de dados
 
     Retorna uma mensagem de confirmação da atualização
     """
+
     id = form.id      
     nome = unquote(unquote(form.nome))
-    
+
 
     logger.debug(f"Editando o Cliente {nome}")
 
-    # criando conexão com a base
-    session = Session()
-    # fazendo a consulta para verificar se ja existe a descricao com outro codigo
-    cliente = session.query(Cliente).filter(Cliente.nome == nome and Cliente.id != id).first()
-    
-    if cliente:
-        # se o cliente foi encontrado retorna sem dar o commit
-        error_msg = "Cliente já cadastrado na base"
-        logger.warning(f"Erro ao editar o cliente '{cliente.nome}', {error_msg}")
-        return {"message": error_msg}, 404
-    else:
-        count = session.query(Cliente).filter(Cliente.id == id).update({"nome":nome})        
-        session.commit()
-        if count:
-            # retorna a representação da mensagem de confirmação
-            logger.debug(f"Editado o cliente {nome}")        
-            return {"message": "Cliente editado com sucesso!", "id": id}
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a consulta para verificar se ja existe a descricao com outro codigo
+        cliente = session.query(Cliente).filter(Cliente.nome == nome and Cliente.id != id).first()
+        
+        if cliente:
+            # se o cliente foi encontrado retorna sem dar o commit e o codigo http 404 not found
+            error_msg = "Cliente já cadastrado na base"
+            logger.warning(f"Erro ao editar o cliente '{cliente.nome}', {error_msg}")
+            return {"message": error_msg}, 400
         else:
-            error_msg = "Ocorreu algum erro ao tentar ao atualizar o cliente"
-            logger.warning(f"Erro ao editar o cliente '{nome}', {error_msg}")
-            return {"message": error_msg}, 404
+            
+                count = session.query(Cliente).filter(Cliente.id == id).update({"nome":nome})        
+                session.commit()        
+                if count:
+                    # retorna sem representação com apenas o codigo http 204
+                    logger.debug(f"Editado o cliente {nome}")        
+                    return '', 204
+                else:
+                    error_msg = f"O cliente com ID {id} não foi encontrado na base"
+                    logger.warning(f"Erro ao editar o cliente '{nome}', {error_msg}")
+                    return '', 404
+        
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível salvar novo item :/"
+        logger.warning(f"Erro ao adicionar cliente '{cliente.nome}', {error_msg}")
+        return {"message": error_msg}, 500
+
 
 @app.delete('/cliente', tags=[cliente_tag],
-            responses={"200":ClienteDelSchema, "404":ErrorSchema})        
+            responses={"204": None, "404": None, "500": ErrorSchema})        
 def del_cliente(form:ClenteBuscaDeleteSchema):
+    """Exclui um cliente da base de dados com base no codigo id do cliente
+
+    Retorna uma mensagem de exclusão com sucesso.
+    """
     id = form.id
     logger.debug(f"Excluindo o Cliente ID #{id}")
-     # criando conexão com a base
-    session = Session()
-    # fazendo a remoção
-    count = session.query(Cliente).filter(Cliente.id == id).delete()
-    session.commit()
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a remoção
+        count = session.query(Cliente).filter(Cliente.id == id).delete()
+        session.commit()
 
-    if count:
-        # retorna a representação da mensagem de confirmação
-        logger.debug(f"Excluindo o cliente ID #{id}")
-        return {"mesage": "Cliente removido", "id": id}
-    else:
-        # se o cliente não foi encontrado
-        error_msg = "Cliente não encontrado na base :/"
-        logger.warning(f"Erro ao excluir o cliente #'{id}', {error_msg}")
-        return {"mesage": error_msg}, 404
+        if count:
+            # retorna sem representação com apenas o codigo http 204
+            logger.debug(f"Excluindo o cliente ID #{id}")            
+            return '', 204
+        else:
+            # se o cliente não foi encontrado retorno o codigo http 404 not found
+            error_msg = "Cliente não encontrado na base :/"
+            logger.warning(f"Erro ao excluir o cliente #'{id}', {error_msg}")
+            return '', 404
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível excluir o cliente :/"
+        logger.warning(f"Erro ao excluir o cliente com ID #'{id}', {error_msg}")
+        return {"message": error_msg}, 500
 
 
 @app.get('/clientes', tags=[cliente_tag], 
          responses={"200":ListagemClienteSchema, "404":ErrorSchema})
 def get_clientes():
-    """ faz a busca por todos os clientes cadastrados
+    """Faz a busca por todos os clientes cadastrados
 
     Retorna uma representacao da listagem de clientes
     """
@@ -142,7 +164,7 @@ def get_clientes():
 @app.get('/cliente', tags=[cliente_tag], 
          responses={"200":ClienteViewSchema, "404": ErrorSchema})
 def get_cliente(query: ClienteBuscaSchema):
-    """ Faz a busca por um cliente a partir do nome do cliente
+    """Faz a busca por um cliente a partir do nome do cliente
 
     Retorna uma representação do cliente
     """
@@ -162,6 +184,159 @@ def get_cliente(query: ClienteBuscaSchema):
         logger.debug(f"Cliente encontrado: '{cliente.nome}'")
         # retorna a representação de cliente
         return apresenta_cliente(cliente), 200
+
+
+@app.post('/profissional', tags=[profissional_tag],
+           responses={"200":ProfissionalViewSchema, "409": ErrorSchema, "400": ErrorSchema})
+def add_profissional(form: ProfissionalSchema):
+    """Adicionar um profissional à base de dados
+
+    Retorna uma representação do profissional.
+    """
+    profissional = Profissional(
+        nome = form.nome
+    )
+    
+    logger.debug(f"Adicionando um profissional com o nome: '{profissional.nome}'")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # adicionando produto
+        session.add(profissional)
+        # efetivando o camando de adição de novo item na tabela
+        session.commit()
+        logger.debug(f"Adicionado profissional de nome: '{profissional.nome}'")
+        return apresenta_profissional(profissional), 200
+
+    except IntegrityError as e:
+        # como a duplicidade do nome é a provável razão do IntegrityError
+        error_msg = "Profissional de mesmo nome já salvo na base :/"
+        logger.warning(f"Erro ao adicionar profissional '{profissional.nome}', {error_msg}")
+        return {"mesage": error_msg}, 409
+
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível salvar novo item :/"
+        logger.warning(f"Erro ao adicionar profissional '{profissional.nome}', {error_msg}")
+        return {"mesage": error_msg}, 400
+
+
+@app.put('/profissional', tags=[profissional_tag],
+        responses={"204": None, "400": ErrorSchema, "404": None, "500": ErrorSchema})
+def put_profissional(form: ProfissionalViewSchema):
+    """Editar um profissional já cadastrado na base
+
+    Retorna uma mensagem de confirmação da atualização 
+    """
+    id = form.id      
+    nome = unquote(unquote(form.nome))
+    logger.debug(f"Editando o Profissional {nome}")
+    try:
+
+        # criando conexão com a base
+        session = Session()
+        # fazendo a consulta para verificar se ja existe a descricao com outro codigo
+        profissional = session.query(Profissional).filter(Profissional.nome == nome and Profissional.id != id).first()
+        
+        if profissional:
+            # se o profissional foi encontrado retorna sem dar o commit
+            error_msg = "Profissional já cadastrado na base"
+            logger.warning(f"Erro ao editar o profissional '{profissional.nome}', {error_msg}")
+            return {"message": error_msg}, 400
+        else:
+            count = session.query(Cliente).filter(profissional.id == id).update({"nome":nome})        
+            session.commit()
+            if count:
+                # retorna sem representação com apenas o codigo http 204
+                logger.debug(f"Editado o profissional {nome}")        
+                return None, 204
+            else:
+                # se o profissional não foi encontrado, retorna o codigo not found 404
+                error_msg = "O profissional não foi encontrado"
+                logger.warning(f"Erro ao editar o profissional '{nome}', {error_msg}")
+                return '', 404
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = f"Não foi possível editar o profissional :/{e.__str__}"
+        logger.warning(f"Erro ao editar o profissional com ID #'{id}', {error_msg}")
+        return {"message": error_msg}, 500
+
+@app.delete('/profissional',tags=[profissional_tag],
+            responses={"204": None, "404": None, "500": ErrorSchema})
+def del_profissional(form: ProfissionalBuscaExclusaoSchema):
+    """Excluiu um profissional cadastrado com base no Id"""
+    id = form.id
+    logger.debug(f"Excluindo o Profissional ID #{id}")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a remoção
+        count = session.query(Profissional).filter(Profissional.id == id).delete()
+        session.commit()
+        
+        if count:
+            # retorna sem representação com apenas o codigo http 204
+            logger.debug(f"Excluindo o profissional ID #{id}")
+            return '', 204
+        else:
+            # se o profissional não foi encontrado, retorna o codigo not found 404
+            error_msg = "Profissional não encontrado na base :/"
+            logger.warning(f"Erro ao excluir o profissional #'{id}', {error_msg}")
+            return '', 404
+            
+    except Exception as e:
+         # caso um erro fora do previsto
+        error_msg = f"Não foi possível excluir o profissional :/{e.__str__}"
+        logger.warning(f"Erro ao excluir o profissional com ID #'{id}', {error_msg}")
+        return {"message": error_msg}, 500
+
+
+@app.get('/profissionais',tags=[profissional_tag],
+        responses={"200": ListagemProfissionalSchema, "404":ErrorSchema})
+def get_profissionais():
+    """Faz a busca por todos os profissionais cadastrados
+
+    Retorna uma representacao da listagem de profissionais
+    """
+    logger.debug(f"Coletando profissionais ")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    profissionais = session.query(Profissional).all()
+
+    if not profissionais:
+        # se não há produtos cadastrados
+        return {"profissionais": []}, 200
+    else:
+        logger.debug(f"%d profissionais encontrados" % len(profissionais))
+        # retorna a representação de cliente
+        print(profissionais)
+        return apresenta_profissionais(profissionais), 200
+
+@app.get('/profissional', tags=[profissional_tag],
+         responses= {"200": ProfissionalViewSchema, "404": ErrorSchema})
+def get_profissional(query: ProfissionalBuscaSchema):
+    """Faz a busca por um profissional a partir do nome 
+
+    Retorna uma representação do profissional
+    """
+    profissional_nome = query.nome
+    logger.debug(f"Coletando dados sobre profissional {profissional_nome}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    profissional = session.query(Profissional).filter(Profissional.nome == profissional_nome).first()
+
+    if not profissional:
+        # se o profissional não for encontrado
+        error_msg = "Profissional não encontrado na base :/"
+        logger.warning(f"Erro ao buscar o profissional '{profissional_nome}', {error_msg}")
+        return {"message": error_msg}, 404
+    else:
+        logger.debug(f"Profissional encontrado: '{profissional_nome.nome}'")
+        # retorna a representação de profissional
+        return apresenta_profissional(profissional), 200
+
 
 
 @app.post('/produto', tags=[produto_tag],
@@ -266,7 +441,7 @@ def del_produto(query: ProdutoBuscaSchema):
     if count:
         # retorna a representação da mensagem de confirmação
         logger.debug(f"Deletado produto #{produto_nome}")
-        return {"mesage": "Produto removido", "id": produto_nome}
+        return {"message": "Produto removido", "id": produto_nome}
     else:
         # se o produto não foi encontrado
         error_msg = "Produto não encontrado na base :/"
