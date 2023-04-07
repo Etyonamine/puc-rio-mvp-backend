@@ -6,8 +6,7 @@ from typing import List
 from  model import Base
 
 class ClienteSchema(BaseModel):
-    """Define com um novo cliente a ser inserido"""    
-    id: int = 1
+    """Define com um novo cliente a ser inserido """       
     nome: str = "Junior"
 
 class ClienteBuscaSchema(BaseModel):

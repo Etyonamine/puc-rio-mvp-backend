@@ -20,4 +20,4 @@ from schemas.profissional import ProfissionalSchema, ProfissionalBuscaSchema, Li
 
 from schemas.servico import ServicoSchema, ServicoBuscaSchema, ListagemServicoSchema,\
                             ServicoViewSchema, apresenta_servico, apresenta_servicos,\
-                            ServicoDelSchema,ServicoEditSchema
+                            ServicoDelSchema,ServicoEditSchema, ServicoBuscaDeleteSchema

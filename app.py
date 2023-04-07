@@ -4,7 +4,7 @@ from urllib.parse import unquote
 
 from sqlalchemy.exc import IntegrityError
 
-from model import Session, Produto, Comentario, Cliente, Profissional
+from model import Session, Produto, Comentario, Cliente, Profissional, Servico
 from logger import logger
 from schemas import *
 from flask_cors import CORS
@@ -19,6 +19,7 @@ produto_tag = Tag(name="Produto", description="Adição, visualização e remoç
 comentario_tag = Tag(name="Comentario", description="Adição de um comentário à um produtos cadastrado na base")
 cliente_tag =  Tag(name="Cliente", description="Adição, visualização e remoção de clientes à base")
 profissional_tag = Tag(name="Profissional", description="Adição, visualização e remoção de clientes à base")
+servico_tag = Tag(name="Servico", description="Adição, visualização e remoção de serviços à base")
 
 @app.get('/', tags=[home_tag])
 def home():
@@ -224,10 +225,7 @@ def add_profissional(form: ProfissionalSchema):
 @app.put('/profissional', tags=[profissional_tag],
         responses={"204": None, "400": ErrorSchema, "404": None, "500": ErrorSchema})
 def put_profissional(form: ProfissionalViewSchema):
-    """Editar um profissional já cadastrado na base
-
-    Retorna uma mensagem de confirmação da atualização 
-    """
+    """Editar um profissional já cadastrado na base """
     id = form.id      
     nome = unquote(unquote(form.nome))
     logger.debug(f"Editando o Profissional {nome}")
@@ -260,6 +258,7 @@ def put_profissional(form: ProfissionalViewSchema):
         error_msg = f"Não foi possível editar o profissional :/{e.__str__}"
         logger.warning(f"Erro ao editar o profissional com ID #'{id}', {error_msg}")
         return {"message": error_msg}, 500
+
 
 @app.delete('/profissional',tags=[profissional_tag],
             responses={"204": None, "404": None, "500": ErrorSchema})
@@ -338,8 +337,160 @@ def get_profissional(query: ProfissionalBuscaSchema):
         return apresenta_profissional(profissional), 200
 
 
+@app.post('/servico', tags=[servico_tag],
+          responses={"201": None,"400": ErrorSchema})
+def post_servico(form: ServicoSchema):
+    """Adiciona um novo serviço à base de dados """
+    servico = Servico(
+        descricao= form.descricao,
+        valor= form.valor
+    )
+    logger.debug(f"Adicionando um servico com a descrição: '{servico.descricao}' e valor = {servico.valor}")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # adicionando produto
+        session.add(servico)
+        # efetivando o camando de adição de novo item na tabela
+        session.commit()
+        logger.debug(f"Adicionado o serviço com a descrição: '{servico.descricao}' e valor = {servico.valor}")
+        return apresenta_servico(servico), 201
+    except IntegrityError as e:
+        # como a duplicidade do nome é a provável razão do IntegrityError
+        error_msg = "Serviço de mesma descrição já salvo na base :/"
+        logger.warning(f"Erro ao adicionar o serviço '{servico.descricao}', {error_msg}")
+        return {"mesage": error_msg}, 409        
+    except Exception as e:
+       # caso um erro fora do previsto
+        error_msg = "Não foi possível salvar novo item :/"
+        logger.warning(f"Erro ao adicionar o serviço '{servico.descricao}', {error_msg}")
+        return {"mesage": error_msg}, 400
 
-@app.post('/produto', tags=[produto_tag],
+
+@app.put('/servico',tags=[servico_tag],
+         responses={"204": None,"404":None, "409":ErrorSchema, "500": ErrorSchema})        
+def put_servico(form:ServicoEditSchema):
+    """ Editando o serviço com a busca pelo id """
+    id = form.id
+    descricao = unquote(unquote(form.descricao))
+    valor = form.valor
+     
+    logger.debug(f"Editando o Serviço {descricao}")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a consulta para verificar se ja existe a descricao com outro codigo
+        servico_busca = session.query(Servico).filter(Servico.descricao == descricao and Servico.id != id).first()
+        
+        if servico_busca:
+            # se o serviço for encontrado retorna sem dar o commit
+            error_msg = "Serviço já cadastrado na base"
+            logger.warning(f"Erro ao editar o serviço '{descricao}', {error_msg}")
+            return {"message": error_msg}, 400
+        else:
+            count = session.query(Servico).filter(Servico.id == id).update({"descricao":descricao, "valor": valor})
+            session.commit()
+            if count:
+                # retorna sem representação com apenas o codigo http 204
+                logger.debug(f"Editado o serviço {descricao}")        
+                return '', 204
+            else:
+                # se o serviço não foi encontrado, retorna o codigo not found 404
+                error_msg = "O serviço não foi encontrado"
+                logger.warning(f"Erro ao editar o serviço '{descricao}', {error_msg}")
+                return '', 404
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = f"Não foi possível editar o serviço :/{e.__str__}"
+        logger.warning(f"Erro ao editar o serviço com ID #'{id}', {error_msg}")
+        return {"message": error_msg}, 500
+
+
+@app.get('/servicos', tags=[servico_tag],
+        responses= {"200": ListagemServicoSchema, "500": ErrorSchema})
+def get_servicos():
+    """Consultar todos os serviços cadastrados na base de dados
+    
+    Retorna uma lista de serviços
+    """
+    logger.debug(f"Consulta de serviço")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    servicos = session.query(Servico).all()
+    try:        
+        if not servicos:
+            # se não há servicos cadastrados
+            return {"servicos": []}, 200
+        else:
+            logger.debug(f"%d servicos encontrados" % len(servicos))
+            # retorna a representação de cliente
+            print(servicos)
+            return apresenta_servicos(servicos), 200
+    except Exception as e:
+         # caso um erro fora do previsto
+        error_msg = f"Não foi possível consultar os serviços :/{e.__str__}"
+        logger.warning(f"Erro ao consultar o serviços , {error_msg}")
+        return {"message": error_msg}, 500
+
+
+@app.get('/servico', tags=[servico_tag],
+         responses={"200": ServicoViewSchema, "500": ErrorSchema})
+def get_servico(query: ServicoBuscaSchema):
+    """Consulta um serviço com base no codigo id
+
+    Retorna a representação de um serviço
+    """
+    servico_descricao = query.descricao
+    logger.debug(f"Consulta de dados sobre serviço {servico_descricao}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a busca
+    servico = session.query(Servico).filter(Servico.descricao == servico_descricao).first()
+
+    if not servico:
+        # se o servico não for encontrado
+        error_msg = "Serviço não encontrado na base :/"
+        logger.warning(f"Erro ao buscar o servico '{servico_descricao}', {error_msg}")
+        return {"message": error_msg}, 404
+    else:
+        logger.debug(f"Serviço encontrado: '{servico.descricao}'")
+        # retorna a representação de serviço
+        return apresenta_servico(servico), 200
+
+
+@app.delete('/servico',tags=[servico_tag],
+            responses={"204": None, "404": ErrorSchema, "500": ErrorSchema})
+def del_servico(form: ServicoBuscaDeleteSchema):
+    """Excuir o registro de serviço cadastro com base no id"""
+    id = form.id
+
+    logger.debug(f"Excluindo o Serviço ID #{id}")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a remoção
+        count = session.query(Servico).filter(Servico.id == id).delete()
+        session.commit()
+        
+        if count:
+            # retorna sem representação com apenas o codigo http 204
+            logger.debug(f"Excluindo o serviço ID #{id}")
+            return '', 204
+        else:
+            # se o serviço não foi encontrado, retorna o codigo not found 404
+            error_msg = "Serviço não encontrado na base :/"
+            logger.warning(f"Erro ao excluir o serviço #'{id}', {error_msg}")
+            return '', 404
+            
+    except Exception as e:
+         # caso um erro fora do previsto
+        error_msg = f"Não foi possível excluir o serviço :/{e.__str__}"
+        logger.warning(f"Erro ao excluir o serviço com ID #'{id}', {error_msg}")
+        return {"message": error_msg}, 500
+
+
+@app.post('/pr,oduto', tags=[produto_tag],
           responses={"200": ProdutoViewSchema, "409": ErrorSchema, "400": ErrorSchema})
 def add_produto(form: ProdutoSchema):
     """Adiciona um novo Produto à base de dados
