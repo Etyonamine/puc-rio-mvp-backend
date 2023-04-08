@@ -1,6 +1,7 @@
  
 from pydantic import BaseModel
 from model.agendamento import Agendamento
+from model.servico import Servico
 from typing import List
 from datetime import datetime
 
@@ -41,7 +42,8 @@ def apresenta_agendamentos(agendamentos: List[Agendamento]):
             "servico_id": agendamento.servico_id ,
             "cliente": agendamento.cliente.nome, 
             "profissional": agendamento.profissional.nome,
-            "servico": agendamento.servico.descricao
+            "descricao_servico":  agendamento.servico.descricao,
+            "valor_servico": agendamento.servico.valor
         })
 
     return {"agendamentos": result}
@@ -56,8 +58,8 @@ class AgendamentoViewSchema(BaseModel):
     servico_id: int = 1
     cliente: str = "teste"
     profissional: str = "Carlos"
-    sevico: str = "corte de cabelo"
-    
+    descricao_servico: str = "teste"
+    valor_servico: float = 0.00
     
 class ListagemAgendamentoSchema(BaseModel):
     """ Define como uma listagem de agendamentos será retornada.
@@ -90,5 +92,9 @@ def apresenta_agendamento(agendamento: Agendamento):
         "observacao": agendamento.observacao,
         "cliente_id": agendamento.cliente_id,
         "profissional_id": agendamento.profissional_id,
-        "servico_id": agendamento.servico_id         
+        "servico_id": agendamento.servico_id, 
+        "profissional": agendamento.profissional.nome,
+        "cliente": agendamento.cliente.nome,
+        "descricao_servico": agendamento.servico.descricao, 
+        "valor_servico": agendamento.servico.valor         
     }
