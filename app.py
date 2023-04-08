@@ -287,7 +287,7 @@ def get_clientes():
     clientes = session.query(Cliente).all()
 
     if not clientes:
-        # se não há produtos cadastrados
+        # se não há clientes cadastrados
         return {"clientes": []}, 200
     else:
         logger.debug(f"%d clientes encontrados" % len(clientes))
@@ -336,7 +336,7 @@ def add_profissional(form: ProfissionalSchema):
     try:
         # criando conexão com a base
         session = Session()
-        # adicionando produto
+        # adicionando profissional
         session.add(profissional)
         # efetivando o camando de adição de novo item na tabela
         session.commit()
@@ -484,7 +484,7 @@ def post_servico(form: ServicoSchema):
     try:
         # criando conexão com a base
         session = Session()
-        # adicionando produto
+        # adicionando serviço
         session.add(servico)
         # efetivando o camando de adição de novo item na tabela
         session.commit()
