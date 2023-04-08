@@ -1,13 +1,15 @@
+from datetime import datetime
 from flask_openapi3 import OpenAPI, Info, Tag
 from flask import redirect
 from urllib.parse import unquote
 
 from sqlalchemy.exc import IntegrityError
 
-from model import Session, Produto, Comentario, Cliente, Profissional, Servico
+from model import Session, Produto, Comentario, Agendamento, Cliente, Profissional, Servico
 from logger import logger
 from schemas import *
 from flask_cors import CORS
+
 
 info = Info(title="Minha API", version="1.0.0")
 app = OpenAPI(__name__, info=info)
@@ -17,8 +19,9 @@ CORS(app)
 home_tag = Tag(name="Documentação", description="Seleção de documentação: Swagger, Redoc ou RapiDoc")
 produto_tag = Tag(name="Produto", description="Adição, visualização e remoção de produtos à base")
 comentario_tag = Tag(name="Comentario", description="Adição de um comentário à um produtos cadastrado na base")
+agendamento_tag = Tag(name="Agendamento", description="Adição, visualização e remoção de agendamento à base")
 cliente_tag =  Tag(name="Cliente", description="Adição, visualização e remoção de clientes à base")
-profissional_tag = Tag(name="Profissional", description="Adição, visualização e remoção de clientes à base")
+profissional_tag = Tag(name="Profissional", description="Adição, visualização e remoção de profissional à base")
 servico_tag = Tag(name="Servico", description="Adição, visualização e remoção de serviços à base")
 
 @app.get('/', tags=[home_tag])
@@ -27,9 +30,140 @@ def home():
     """
     return redirect('/openapi')
 
+@app.post('/agendamento', tags=[agendamento_tag],
+        responses={"201": AgendamentoViewSchema, "404": ErrorSchema, "500": ErrorSchema})
+def add_agendamento(form: AgendamentoSchema):
+    """Adicionar o Agendamento de serviços do cliente
+
+       Retorna uma representação do Agendamento do cliente.
+    """
+    agendamento = Agendamento(
+        data_agenda= datetime.strptime(form.data_agenda,"%d/%m/%Y %H:%M:%S"),
+        observacao= form.observacao,
+        cliente_id= form.cliente_id,
+        profissional_id= form.profissional_id,
+        servico_id= form.servico_id
+    )
+    logger.debug(f"Adicionando agendamento de serviço de cliente na data de: '{agendamento.data_agenda}'")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # adicionando agendamento
+        session.add(agendamento)
+        # efetivando o comando de adição de novo item na tabela
+        session.commit()
+        logger.debug(f"Adicionado agendamento do cliente com data em: '{agendamento.data_agenda}'")
+        return apresenta_agendamento(agendamento), 200
+
+    except IntegrityError as e:
+        # como a duplicidade do nome é a provável razão do IntegrityError
+        error_msg = "Agendamento com a mesma data já salvo na base :/"
+        logger.warning(f"Erro ao adicionar  o agendamento do cliente com data = '{agendamento.data_agenda}', {error_msg}")
+        return {"mesage": error_msg}, 409
+
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível salvar novo item :/"
+        logger.warning(f"Erro ao adicionar cliente, {error_msg}")
+        return {"mesage": error_msg}, 400
+
+
+@app.get('/agendamentos', tags=[agendamento_tag],
+        responses={"200": ListagemAgendamentoSchema, "500": ErrorSchema})
+def get_agendamentos():
+    """Consulta os agendamentos dos clientes
+
+    Retorna uma listagem de representações dos clientes encontrados.
+    """
+    logger.debug(f"Consultando os clientes ")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a busca
+        agendamentos = session.query(Agendamento).all()
+
+        if not agendamentos:
+            # se não há agendamentos cadastrados
+            return {"agendamentos": []}, 200
+        else:
+            logger.debug(f"%d agendamentos dos clientes encontrados" % len(agendamentos))
+            # retorna a representação de agendamentos            
+            return apresenta_agendamentos(agendamentos), 200
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = f"Não foi possível consultar os agendamentos :/{str(e)}"
+        logger.warning(f"Erro ao consultar os agendamentos dos clientes, {error_msg}")
+        return {"message": error_msg}, 500
+
+@app.get('/agendamento', tags=[agendamento_tag],
+        responses={"200": AgendamentoViewSchema, "404": ErrorSchema, "500": ErrorSchema})
+def get_agendamento(query: AgendamentoBuscaSchema):
+    """Consulta um agendamento pela data de agendamento e codigo do cliente
+
+    Retorna uma representação do agendamento do cliente
+    """
+    cliente_id = query.cliente_id
+    data_agenda = datetime.strptime(query.data_agenda,"%d/%m/%Y %H:%M:%S")
+    logger.debug(f"Consultando o cliente id = {cliente_id} , data = {data_agenda} ")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a busca
+        agendamento = session.query(Agendamento).filter(Agendamento.data_agenda == data_agenda).\
+                                                filter(Agendamento.cliente_id == cliente_id).first()
+
+        print(data_agenda)
+
+        if not agendamento:
+            # se não há agendamento cadastrado            
+            error_msg = "Agendamento não encontrado na base :/"
+            logger.warning(f"Erro ao buscar o agendamento , {error_msg}")
+            return {"message": error_msg}, 404
+        else:
+            logger.debug(f"Agendamento do cliente ID #{cliente_id} e data de agenda {data_agenda} encontrado")
+            # retorna a representação de agendamentos            
+            return apresenta_agendamento(agendamento), 200
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = f"Não foi possível consultar o agendamento :/{str(e)}"
+        logger.warning(f"Erro ao consultar o agendamento do cliente, {error_msg}")
+        return {"message": error_msg}, 500
+
+
+@app.delete('/agendamento', tags=[agendamento_tag],
+         responses={"204": None, "404": ErrorSchema, "500": ErrorSchema})
+def del_agendamento(form:AgendamentoBuscaDelSchema):
+    """Exclui um agendamento do cliente da base de dados com base no codigo id do agendamento
+
+    Retorna uma mensagem de exclusão com sucesso.
+    """
+    id = form.id
+    logger.debug(f"Excluindo o agendamento do Cliente ID #{id}")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a remoção
+        count = session.query(Agendamento).filter(Agendamento.id == id).delete()
+        session.commit()
+
+        if count:
+            # retorna sem representação com apenas o codigo http 204
+            logger.debug(f"Excluindo o agendamento do cliente ID #{id}")            
+            return '', 204
+        else:
+            # se o agendamento do cliente não foi encontrado retorno o codigo http 404 not found
+            error_msg = "O Agendamento do cliente não foi encontrado na base :/"
+            logger.warning(f"Erro ao excluir o agendamento do cliente #'{id}', {error_msg}")
+            return '', 404
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível excluir o agendamento do cliente :/"
+        logger.warning(f"Erro ao excluir o agendamento do cliente com ID #'{id}', {error_msg}")
+        return {"message": error_msg}, 500
+        
 
 @app.post('/cliente', tags=[cliente_tag],
-responses={"200":ClienteViewSchema, "409": ErrorSchema, "400": ErrorSchema})
+responses={"200":ClienteViewSchema, "409": ErrorSchema, "500": ErrorSchema})
 def add_cliente(form: ClienteSchema):
     """Adiciona um novo cliente à base de dados
 
@@ -59,7 +193,7 @@ def add_cliente(form: ClienteSchema):
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo item :/"
         logger.warning(f"Erro ao adicionar cliente '{cliente.nome}', {error_msg}")
-        return {"mesage": error_msg}, 400
+        return {"mesage": error_msg}, 500
 
 
 @app.put('/cliente', tags=[cliente_tag],
@@ -312,6 +446,7 @@ def get_profissionais():
         print(profissionais)
         return apresenta_profissionais(profissionais), 200
 
+
 @app.get('/profissional', tags=[profissional_tag],
          responses= {"200": ProfissionalViewSchema, "404": ErrorSchema})
 def get_profissional(query: ProfissionalBuscaSchema):
@@ -490,7 +625,7 @@ def del_servico(form: ServicoBuscaDeleteSchema):
         return {"message": error_msg}, 500
 
 
-@app.post('/pr,oduto', tags=[produto_tag],
+@app.post('/produto', tags=[produto_tag],
           responses={"200": ProdutoViewSchema, "409": ErrorSchema, "400": ErrorSchema})
 def add_produto(form: ProdutoSchema):
     """Adiciona um novo Produto à base de dados

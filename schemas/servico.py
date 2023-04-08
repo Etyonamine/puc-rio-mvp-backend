@@ -27,9 +27,6 @@ class ServicoEditSchema(BaseModel):
     descricao: str = "Escova"
     valor: float = 10.00
 
-class ListagemServicoSchema(BaseModel):
-    """ Define como uma listagem de serviços que será retornada.    """
-    servicos:List[ServicoSchema]
 
 def apresenta_servicos(servicos: List[Servico]):    
     """ Retorna uma representação do servico seguido o schema definido em 
@@ -50,6 +47,10 @@ class ServicoViewSchema(BaseModel):
     id: int = 1
     descricao: str = "Corte masculino"
     valor: float = 10.00
+
+class ListagemServicoSchema(BaseModel):
+    """ Define como uma listagem de serviços que será retornada.    """
+    servicos:List[ServicoViewSchema]
 
 class ServicoDelSchema(BaseModel):
     """ Define como deve ser a estrutura do dado retornado após uma requisição

@@ -1,11 +1,14 @@
-from sqlalchemy import Column, String , Integer,DateTime, ForeignKey
+from sqlalchemy import Column, String , Integer,DateTime, ForeignKey, UniqueConstraint
 from model import Base
 from sqlalchemy.orm import relationship
 
 
 class Agendamento(Base):
     __tablename__ = 'agendamento'
-
+    __table_args__ = (
+        UniqueConstraint('data_agenda', 'cliente_id', 'profissional_id', 'servico_id',\
+                          name='unique_agendamento_commit'),
+    )
     id = Column("pk_agenda", Integer, primary_key=True)
     data_agenda = Column (DateTime)
     cliente_id = Column(Integer,ForeignKey("cliente.pk_cliente"))
