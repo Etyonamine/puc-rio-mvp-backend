@@ -185,15 +185,15 @@ def add_cliente(form: ClienteSchema):
 
     except IntegrityError as e:
         # como a duplicidade do nome é a provável razão do IntegrityError
-        error_msg = "Cliente de mesmo nome já salvo na base :/"
+        error_msg = "Cliente de mesmo nome já cadastrado na base de dados!"
         logger.warning(f"Erro ao adicionar cliente '{cliente.nome}', {error_msg}")
-        return {"mesage": error_msg}, 409
+        return {"message": error_msg}, 409
 
     except Exception as e:
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo item :/"
         logger.warning(f"Erro ao adicionar cliente '{cliente.nome}', {error_msg}")
-        return {"mesage": error_msg}, 500
+        return {"message": error_msg}, 500
 
 
 @app.put('/cliente', tags=[cliente_tag],
