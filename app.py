@@ -515,7 +515,7 @@ def put_servico(form:ServicoEditSchema):
         # criando conexão com a base
         session = Session()
         # fazendo a consulta para verificar se ja existe a descricao com outro codigo
-        servico_busca = session.query(Servico).filter(Servico.descricao == descricao and Servico.id != id).first()
+        servico_busca = session.query(Servico).filter(Servico.descricao == descricao).filter(Servico.id != id).first()
         
         if servico_busca:
             # se o serviço for encontrado retorna sem dar o commit

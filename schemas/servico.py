@@ -37,10 +37,10 @@ def apresenta_servicos(servicos: List[Servico]):
     for servico in servicos:
         result.append({
             "id": servico.id, 
-            "descrição": servico.descricao,
+            "descricao": servico.descricao,
             "valor": servico.valor
         })
-    return {"serviços": result}
+    return {"servicos": result}
     
 class ServicoViewSchema(BaseModel):
     """ Define como um serviço que será retornado: serviço. """
