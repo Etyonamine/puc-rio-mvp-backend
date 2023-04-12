@@ -368,20 +368,20 @@ def put_profissional(form: ProfissionalViewSchema):
         # criando conexão com a base
         session = Session()
         # fazendo a consulta para verificar se ja existe a descricao com outro codigo
-        profissional = session.query(Profissional).filter(Profissional.nome == nome and Profissional.id != id).first()
+        profissional = session.query(Profissional).filter(Profissional.nome == nome).filter(Profissional.id != id).first()
         
         if profissional:
             # se o profissional foi encontrado retorna sem dar o commit
             error_msg = "Profissional já cadastrado na base"
-            logger.warning(f"Erro ao editar o profissional '{profissional.nome}', {error_msg}")
+            logger.warning(f"Erro ao editar o profissional ID #{id}, '{profissional.nome}', {error_msg}")
             return {"message": error_msg}, 400
         else:
-            count = session.query(Cliente).filter(profissional.id == id).update({"nome":nome})        
+            count = session.query(Profissional).filter(Profissional.id == id).update({"nome":nome})        
             session.commit()
             if count:
                 # retorna sem representação com apenas o codigo http 204
                 logger.debug(f"Editado o profissional {nome}")        
-                return None, 204
+                return '', 204
             else:
                 # se o profissional não foi encontrado, retorna o codigo not found 404
                 error_msg = "O profissional não foi encontrado"
@@ -390,7 +390,7 @@ def put_profissional(form: ProfissionalViewSchema):
     except Exception as e:
         # caso um erro fora do previsto
         error_msg = f"Não foi possível editar o profissional :/{e.__str__}"
-        logger.warning(f"Erro ao editar o profissional com ID #'{id}', {error_msg}")
+        logger.warning(f"Erro ao editar o profissional com ID #'{id}' e profissional {nome}, {error_msg}")
         return {"message": error_msg}, 500
 
 

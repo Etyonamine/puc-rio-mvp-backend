@@ -57,6 +57,7 @@ def apresenta_profissional(profissional: Profissional):
     """  Retorna uma representação do profissional seguindo o schema definido em 
         ProfissionalViewSchema
     """
-    return {       
+    return {   
+        "id": profissional.id,
         "nome": profissional.nome
     }
