@@ -35,6 +35,7 @@ def apresenta_agendamentos(agendamentos: List[Agendamento]):
     result = []
     for agendamento in agendamentos:       
         result.append({
+            "agenda_id": agendamento.id,
             "data_agenda": agendamento.data_agenda,
             "observacao": agendamento.observacao,
             "cliente_id": agendamento.cliente_id,
@@ -51,6 +52,7 @@ def apresenta_agendamentos(agendamentos: List[Agendamento]):
 
 class AgendamentoViewSchema(BaseModel):
     """ Define como um agendamento será retornado """
+    agenda_id: int = 1
     data_agenda: str = "2023-03-01 08:00:00"
     observacao: str = ""
     cliente_id: int = 1
