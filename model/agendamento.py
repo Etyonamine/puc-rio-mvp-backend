@@ -11,14 +11,14 @@ class Agendamento(Base):
     )
     id = Column("pk_agenda", Integer, primary_key=True)
     data_agenda = Column (DateTime)
-    cliente_id = Column(Integer,ForeignKey("cliente.pk_cliente"))
-    profissional_id = Column(Integer,ForeignKey("profissional.pk_profissional"))
-    servico_id = Column(Integer,ForeignKey("servico.pk_servico"))
+    cliente_id = Column(Integer,ForeignKey("cliente.pk_cliente",ondelete='RESTRICT'), nullable = False)
+    profissional_id = Column(Integer,ForeignKey("profissional.pk_profissional",ondelete='RESTRICT'), nullable = False)
+    servico_id = Column(Integer,ForeignKey("servico.pk_servico" , ondelete='RESTRICT'), nullable = False)
     observacao = Column(String(300))
 
-    cliente = relationship("Cliente", back_populates="agendamentos")
-    profissional = relationship("Profissional", back_populates="agendamentos")
-    servico = relationship("Servico", back_populates="agendamentos")
+    cliente = relationship("Cliente", back_populates="agendamentos", passive_deletes='all')
+    profissional = relationship("Profissional", back_populates="agendamentos", passive_deletes='all')
+    servico = relationship("Servico", back_populates="agendamentos", passive_deletes='all')
 
     def __init__(self, data_agenda:DateTime, cliente_id:int,\
                        profissional_id:int, servico_id:int,

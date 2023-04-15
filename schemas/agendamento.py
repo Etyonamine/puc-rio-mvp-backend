@@ -89,7 +89,7 @@ def apresenta_agendamento(agendamento: Agendamento):
 
     """
     return {
-        "id": agendamento.id,
+        "agenda_id": agendamento.id,
         "data_agenda": agendamento.data_agenda,
         "observacao": agendamento.observacao,
         "cliente_id": agendamento.cliente_id,
