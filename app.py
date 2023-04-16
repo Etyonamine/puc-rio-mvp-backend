@@ -47,11 +47,11 @@ def add_agendamento(form: AgendamentoSchema):
        Retorna uma representação do Agendamento do cliente.
     """
     agendamento = Agendamento(
-        data_agenda=datetime.strptime(form.data_agenda, "%d/%m/%Y %H:%M:%S"),
-        observacao=form.observacao,
-        cliente_id=form.cliente_id,
-        profissional_id=form.profissional_id,
-        servico_id=form.servico_id
+        data_agenda = datetime.strptime(form.data_agenda, "%d/%m/%Y %H:%M:%S"),
+        observacao = form.observacao,
+        cliente_id = form.cliente_id,
+        profissional_id = form.profissional_id,
+        servico_id = form.servico_id
     )
     logger.debug(
         f"Adicionando agendamento de serviço de cliente na data de: '{agendamento.data_agenda}'")
@@ -71,14 +71,65 @@ def add_agendamento(form: AgendamentoSchema):
         error_msg = "Agendamento com a mesma data já salvo na base :/"
         logger.warning(
             f"Erro ao adicionar  o agendamento do cliente com data = '{agendamento.data_agenda}', {error_msg}")
-        return {"mesage": error_msg}, 409
+        return {"message": error_msg}, 409
 
     except Exception as e:
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo item :/"
         logger.warning(f"Erro ao adicionar cliente, {error_msg}")
-        return {"mesage": error_msg}, 400
+        return {"message": error_msg}, 400
 
+
+@app.put('/agendamento', tags=[agendamento_tag],
+        responses={"204": None , "404": ErrorSchema, "500": ErrorSchema})
+def upd_agendamento(form: AgendamentoEditSchema):
+    """Editar uma agenda já cadastrado na base """
+    id = form.id
+    data_agenda = datetime.strptime(form.data_agenda, "%Y-%m-%d %H:%M:%S")
+    logger.debug(f"Editando o agendamento #{id}")
+    try:
+
+        # criando conexão com a base
+        session = Session()
+        # fazendo a consulta para verificar se ja existe a descricao com outro codigo
+        agendamento = session.query(Agendamento)\
+                             .filter(Agendamento.profissional_id == form.profissional_id )\
+                             .filter(Agendamento.data_agenda == data_agenda)\
+                             .filter(Agendamento.id != id)\
+                             .filter(Agendamento.cliente_id != form.cliente_id)\
+                             .first()
+
+        if agendamento:
+            # se o agendamento foi encontrado retorna sem dar o commit
+            error_msg = "Existe outro agendamento com o mesmo profissional para outro cliente!"
+            logger.warning(
+                f"Erro ao editar o profissional ID #{id}, {error_msg}")
+            return {"message": error_msg}, 400
+        else:
+            logger.warning(f"observacao = {form.observacao}")
+            count = session.query(Agendamento)\
+                           .filter(Agendamento.id == id)\
+                           .update({"cliente_id": form.cliente_id,
+                                    "profissional_id": form.profissional_id,
+                                    "servico_id": form.servico_id,
+                                    "observacao": form.observacao})
+            session.commit()
+            if count:
+                # retorna sem representação com apenas o codigo http 204
+                logger.debug(f"Editado o agendamento ID #{id}")
+                return '', 204
+            else:
+                # se o profissional não foi encontrado, retorna o codigo not found 404
+                error_msg = "O agendamento não foi encontrado"
+                logger.warning(
+                    f"Erro ao editar o agendamento ID #'{id}', {error_msg}")
+                return '', 404
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = f"Não foi possível editar o agendamento :/{e.__str__}"
+        logger.warning(
+            f"Erro ao editar o agendamento com ID #'{id}', {error_msg}")
+        return {"message": error_msg}, 500
 
 @app.get('/agendamentos', tags=[agendamento_tag],
          responses={"200": ListagemAgendamentoSchema, "500": ErrorSchema})
@@ -108,7 +159,6 @@ def get_agendamentos():
         logger.warning(
             f"Erro ao consultar os agendamentos dos clientes, {error_msg}")
         return {"message": error_msg}, 500
-
 
 
 @app.get('/agendamento_id', tags=[agendamento_tag],

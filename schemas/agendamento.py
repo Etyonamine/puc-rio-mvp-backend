@@ -54,6 +54,7 @@ class AgendamentoBuscaServicoSchema(BaseModel):
     """
     servico_id = 1
 
+
 def apresenta_agendamentos(agendamentos: List[Agendamento]):
     """ Retorna uma representação do agendamento seguindo o schema definido em
         AgendamentoViewSchema.
@@ -103,12 +104,22 @@ class AgendamentoBuscaDelSchema(BaseModel):
     id: int = 1
 
 class AgendamentoDelSchema(BaseModel):
-    """ Define como deve ser a estrutura do dado retornado após uma requisição
+    """ Define como deve ser a estrutura de recebimento para atualização do agendamento retornado após uma requisição
         de remoção.
     """
     mesage: str
     nome: str
 
+class AgendamentoEditSchema(BaseModel):
+    """ Define como será recebido os dados para a edição
+    """
+    id: int = 1
+    data_agenda: str = '2023/03/01 00:00'
+    cliente_id: int = 1
+    profissional_id: int = 1
+    servico_id: int = 1
+    observacao: str = ''
+    
 
 def apresenta_agendamento(agendamento: Agendamento):
     """ Retorna uma representação do agendamento seguindo o schema definido em

@@ -4,7 +4,7 @@ from schemas.agendamento import AgendamentoSchema, AgendamentoBuscaSchema, Lista
                                 AgendamentoViewSchema, apresenta_agendamento,apresenta_agendamentos,\
                                 AgendamentoDelSchema, AgendamentoBuscaDelSchema, AgendamentoBuscaClienteSchema,\
                                 AgendamentoBuscaProfissionalSchema, AgendamentoBuscaServicoSchema,\
-                                AgendamentoBuscaIdSchema
+                                AgendamentoBuscaIdSchema, AgendamentoEditSchema
 
 from schemas.cliente import ClienteSchema, ClienteBuscaSchema, ListagemClienteSchema,\
                             ClienteViewSchema, apresenta_cliente, apresenta_clientes,\
