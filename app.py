@@ -110,6 +110,41 @@ def get_agendamentos():
         return {"message": error_msg}, 500
 
 
+
+@app.get('/agendamento_id', tags=[agendamento_tag],
+         responses={"200": AgendamentoViewSchema, "404": ErrorSchema, "500": ErrorSchema})
+def get_agendamento_id(query: AgendamentoBuscaIdSchema):
+    """Consulta um agendamento pelo codigo do agendamento
+
+    Retorna uma representação do agendamento do cliente
+    """
+    id = query.id    
+    logger.debug(
+        f"Consultando o agendamento por id = #{id} ")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a busca
+        agendamento = session.query(Agendamento).filter(Agendamento.id == id).first()
+
+        if not agendamento:
+            # se não há agendamento cadastrado
+            error_msg = "Agendamento não encontrado na base :/"
+            logger.warning(f"Erro ao buscar o agendamento , {error_msg}")
+            return {"message": error_msg}, 404
+        else:
+            logger.debug(
+                f"Agendamento do cliente ID #{id} encontrado")
+            # retorna a representação de agendamentos
+            return apresenta_agendamento(agendamento), 200
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = f"Não foi possível consultar o agendamento :/{str(e)}"
+        logger.warning(
+            f"Erro ao consultar o agendamento do cliente, {error_msg}")
+        return {"message": error_msg}, 500
+
+
 @app.get('/agendamento', tags=[agendamento_tag],
          responses={"200": AgendamentoViewSchema, "404": ErrorSchema, "500": ErrorSchema})
 def get_agendamento(query: AgendamentoBuscaSchema):

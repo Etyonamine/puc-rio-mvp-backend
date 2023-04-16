@@ -17,6 +17,14 @@ class AgendamentoSchema(BaseModel):
     servico_id: int = 1
 
 
+class AgendamentoBuscaIdSchema(BaseModel):
+    """ Define como deve ser a estrutura que representa a busca. Que será
+        feita apenas com o codigo do agendamento
+
+    """
+    id: int = 1    
+
+
 class AgendamentoBuscaSchema(BaseModel):
     """ Define como deve ser a estrutura que representa a busca. Que será
         feita apenas com o codigo do cliente e data de agendamento.
