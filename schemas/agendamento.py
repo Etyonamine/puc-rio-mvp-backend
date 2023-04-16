@@ -25,7 +25,26 @@ class AgendamentoBuscaSchema(BaseModel):
     cliente_id: int = 1
     data_agenda: str = "01/04/2023 08:00:00"
 
+class AgendamentoBuscaClienteSchema(BaseModel):
+    """ Define como deve ser a estrutura que representa a busca. Que será
+        feita apenas com o codigo do cliente.
 
+    """
+    cliente_id: int = 1
+
+class AgendamentoBuscaProfissionalSchema(BaseModel):
+    """ Define como deve ser a estrutura que representa a busca. Que será
+        feita apenas com o codigo do profissional
+
+    """
+    profissional_id = 1
+
+class AgendamentoBuscaServicoSchema(BaseModel):
+    """ Define como deve ser a estrutura que representa a busca. Que será
+        feita apenas com o codigo do serviço
+
+    """
+    servico_id = 1
 
 def apresenta_agendamentos(agendamentos: List[Agendamento]):
     """ Retorna uma representação do agendamento seguindo o schema definido em

@@ -7,7 +7,7 @@ class Cliente(Base):
 
     id = Column("pk_cliente", Integer, primary_key=True)
     nome = Column(String(150), unique = True)
-    agendamentos = relationship("Agendamento", back_populates="cliente")
+    agendamentos = relationship("Agendamento", cascade="all,delete", back_populates="cliente")
 
     def __init__(self, nome: str):
         """

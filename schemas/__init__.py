@@ -2,7 +2,8 @@ from schemas.error import ErrorSchema
 
 from schemas.agendamento import AgendamentoSchema, AgendamentoBuscaSchema, ListagemAgendamentoSchema,\
                                 AgendamentoViewSchema, apresenta_agendamento,apresenta_agendamentos,\
-                                AgendamentoDelSchema, AgendamentoBuscaDelSchema
+                                AgendamentoDelSchema, AgendamentoBuscaDelSchema, AgendamentoBuscaClienteSchema,\
+                                AgendamentoBuscaProfissionalSchema, AgendamentoBuscaServicoSchema
 
 from schemas.cliente import ClienteSchema, ClienteBuscaSchema, ListagemClienteSchema,\
                             ClienteViewSchema, apresenta_cliente, apresenta_clientes,\
