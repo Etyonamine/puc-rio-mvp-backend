@@ -1,6 +1,6 @@
 # Minha API
 
-Este projeto faz parte da entrega do MVP para o primeiro sprint do  **Curso de Pós Graduação em Engenharia de software** 
+Este API é a parte backend da entrega do MVP para o primeiro sprint do  **Curso de Pós Graduação em Engenharia de software** 
 
  
 ## Pré-requisito
