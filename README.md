@@ -5,7 +5,7 @@ Este projeto faz parte da entrega do MVP para o primeiro sprint do  **Curso de P
  
 ## Pré-requisito
 ---
-1)Git e Python instalado no desktop e/ou computador
+1)Git e Python instalado no desktop e/ou notebook   
 
 2)Clonar o repositório https://github.com/Etyonamine/puc-rio-mvp-sprint-1-back-end.git
 
@@ -29,13 +29,15 @@ Este projeto faz parte da entrega do MVP para o primeiro sprint do  **Curso de P
 
 3.1) Executado sem reload
 ```
-(env)$ flask run --host 0.0.0.0 --port 5000
+    (env)$ flask run --host 0.0.0.0 --port 5000
 ```
 3.2)Em modo de desenvolvimento é recomendado executar utilizando o parâmetro reload, que reiniciará o servidor
 automaticamente após uma mudança no código fonte. 
 
 ```
-(env)$ flask run --host 0.0.0.0 --port 5000 --reload
+    (env)$ flask run --host 0.0.0.0 --port 5000 --reload
 ```
 
 4)Para acessar os serviços da api clique no link = [http://localhost:5000/#/](http://localhost:5000/#/) no navegador para verificar o status da API em execução.
+
+5)Selecione uma das opções : swagger / redoc / rapiDoc para visualizar via interface os serviços e métodos.
