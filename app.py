@@ -17,44 +17,52 @@ CORS(app)
 
 # definindo tags
 home_tag = Tag(name="Documentação",
-               description="Seleção de documentação: Swagger, Redoc ou RapiDoc")
-produto_tag = Tag(
-    name="Produto", description="Adição, visualização e remoção de produtos à base")
-comentario_tag = Tag(
-    name="Comentario", description="Adição de um comentário à um produtos cadastrado na base")
+               description="Seleção de documentação: Swagger,\
+                             Redoc ou RapiDoc")
+
 agendamento_tag = Tag(
-    name="Agendamento", description="Adição, visualização e remoção de agendamento à base")
+    name="Agendamento", description="Adição, visualização,\
+                                    edição e remoção de agendamento à base")
+
 cliente_tag = Tag(
-    name="Cliente", description="Adição, visualização e remoção de clientes à base")
+    name="Cliente", description="Adição, visualização,\
+                                 edição e remoção de clientes à base")
+
 profissional_tag = Tag(
-    name="Profissional", description="Adição, visualização e remoção de profissional à base")
+    name="Profissional", description="Adição, visualização,\
+                                      edição e remoção de profissional à base")
 servico_tag = Tag(
-    name="Servico", description="Adição, visualização e remoção de serviços à base")
+    name="Servico", description="Adição, visualização,\
+                                 edição e remoção de serviços à base")
 
 
 @app.get('/', tags=[home_tag])
 def home():
-    """Redireciona para /openapi, tela que permite a escolha do estilo de documentação.
+    """Redireciona para /openapi, tela que permite\
+       a escolha do estilo de documentação.
     """
     return redirect('/openapi')
 
 
 @app.post('/agendamento', tags=[agendamento_tag],
-          responses={"201": AgendamentoViewSchema, "404": ErrorSchema, "500": ErrorSchema})
+          responses={"201": AgendamentoViewSchema,
+                     "404": ErrorSchema,
+                     "500": ErrorSchema})
 def add_agendamento(form: AgendamentoSchema):
     """Adicionar o Agendamento de serviços do cliente
 
        Retorna uma representação do Agendamento do cliente.
     """
     agendamento = Agendamento(
-        data_agenda = datetime.strptime(form.data_agenda, "%d/%m/%Y %H:%M:%S"),
-        observacao = form.observacao,
-        cliente_id = form.cliente_id,
-        profissional_id = form.profissional_id,
-        servico_id = form.servico_id
+        data_agenda=datetime.strptime(form.data_agenda, "%d/%m/%Y %H:%M:%S"),
+        observacao=form.observacao,
+        cliente_id=form.cliente_id,
+        profissional_id=form.profissional_id,
+        servico_id=form.servico_id
     )
     logger.debug(
-        f"Adicionando agendamento de serviço de cliente na data de: '{agendamento.data_agenda}'")
+        f"Adicionando agendamento de serviço de cliente na\
+         data de: '{agendamento.data_agenda}'")
     try:
         # criando conexão com a base
         session = Session()
@@ -63,14 +71,16 @@ def add_agendamento(form: AgendamentoSchema):
         # efetivando o comando de adição de novo item na tabela
         session.commit()
         logger.debug(
-            f"Adicionado agendamento do cliente com data em: '{agendamento.data_agenda}'")
+            f"Adicionado agendamento do cliente com\
+             data em: '{agendamento.data_agenda}'")
         return apresenta_agendamento(agendamento), 200
 
     except IntegrityError as e:
         # como a duplicidade do nome é a provável razão do IntegrityError
         error_msg = "Agendamento com a mesma data já salvo na base :/"
         logger.warning(
-            f"Erro ao adicionar  o agendamento do cliente com data = '{agendamento.data_agenda}', {error_msg}")
+            f"Erro ao adicionar  o agendamento do cliente com data = '\
+            {agendamento.data_agenda}', {error_msg}")
         return {"message": error_msg}, 409
 
     except Exception as e:
@@ -81,7 +91,9 @@ def add_agendamento(form: AgendamentoSchema):
 
 
 @app.put('/agendamento', tags=[agendamento_tag],
-        responses={"204": None , "404": ErrorSchema, "500": ErrorSchema})
+         responses={"204": None,
+                    "404": ErrorSchema,
+                    "500": ErrorSchema})
 def upd_agendamento(form: AgendamentoEditSchema):
     """Editar uma agenda já cadastrado na base """
     id = form.id
@@ -91,17 +103,20 @@ def upd_agendamento(form: AgendamentoEditSchema):
 
         # criando conexão com a base
         session = Session()
-        # fazendo a consulta para verificar se ja existe a descricao com outro codigo
+        # Consulta se ja existe a descricao com outro codigo
         agendamento = session.query(Agendamento)\
-                             .filter(Agendamento.profissional_id == form.profissional_id )\
+                             .filter(Agendamento.profissional_id
+                                     == form.profissional_id)\
                              .filter(Agendamento.data_agenda == data_agenda)\
                              .filter(Agendamento.id != id)\
-                             .filter(Agendamento.cliente_id != form.cliente_id)\
+                             .filter(
+                                    Agendamento.cliente_id != form.cliente_id)\
                              .first()
 
         if agendamento:
-            # se o agendamento foi encontrado retorna sem dar o commit
-            error_msg = "Existe outro agendamento com o mesmo profissional para outro cliente!"
+            # se foi encontrado retorna sem dar o commit
+            error_msg = "Existe outro agendamento com\
+                         o mesmo profissional para outro cliente!"
             logger.warning(
                 f"Erro ao editar o profissional ID #{id}, {error_msg}")
             return {"message": error_msg}, 400
@@ -119,7 +134,7 @@ def upd_agendamento(form: AgendamentoEditSchema):
                 logger.debug(f"Editado o agendamento ID #{id}")
                 return '', 204
             else:
-                # se o profissional não foi encontrado, retorna o codigo not found 404
+                # se não foi encontrado, retorna o codigo not found 404
                 error_msg = "O agendamento não foi encontrado"
                 logger.warning(
                     f"Erro ao editar o agendamento ID #'{id}', {error_msg}")
@@ -130,6 +145,7 @@ def upd_agendamento(form: AgendamentoEditSchema):
         logger.warning(
             f"Erro ao editar o agendamento com ID #'{id}', {error_msg}")
         return {"message": error_msg}, 500
+
 
 @app.get('/agendamentos', tags=[agendamento_tag],
          responses={"200": ListagemAgendamentoSchema, "500": ErrorSchema})
@@ -162,20 +178,22 @@ def get_agendamentos():
 
 
 @app.get('/agendamento_id', tags=[agendamento_tag],
-         responses={"200": AgendamentoViewSchema, "404": ErrorSchema, "500": ErrorSchema})
+         responses={"200": AgendamentoViewSchema, "404": ErrorSchema,
+                    "500": ErrorSchema})
 def get_agendamento_id(query: AgendamentoBuscaIdSchema):
     """Consulta um agendamento pelo codigo do agendamento
 
     Retorna uma representação do agendamento do cliente
     """
-    id = query.id    
+    id = query.id
     logger.debug(
         f"Consultando o agendamento por id = #{id} ")
     try:
         # criando conexão com a base
         session = Session()
         # fazendo a busca
-        agendamento = session.query(Agendamento).filter(Agendamento.id == id).first()
+        agendamento = session.query(Agendamento)\
+                             .filter(Agendamento.id == id).first()
 
         if not agendamento:
             # se não há agendamento cadastrado
@@ -196,7 +214,8 @@ def get_agendamento_id(query: AgendamentoBuscaIdSchema):
 
 
 @app.get('/agendamento', tags=[agendamento_tag],
-         responses={"200": AgendamentoViewSchema, "404": ErrorSchema, "500": ErrorSchema})
+         responses={"200": AgendamentoViewSchema, "404": ErrorSchema,
+                    "500": ErrorSchema})
 def get_agendamento(query: AgendamentoBuscaSchema):
     """Consulta um agendamento pela data de agendamento e codigo do cliente
 
@@ -210,7 +229,9 @@ def get_agendamento(query: AgendamentoBuscaSchema):
         # criando conexão com a base
         session = Session()
         # fazendo a busca
-        agendamento = session.query(Agendamento).filter(Agendamento.data_agenda == data_agenda).\
+        agendamento = session.query(Agendamento)\
+                             .filter(Agendamento.data_agenda ==
+                                     data_agenda).\
             filter(Agendamento.cliente_id == cliente_id).first()
 
         print(data_agenda)
@@ -222,7 +243,8 @@ def get_agendamento(query: AgendamentoBuscaSchema):
             return {"message": error_msg}, 404
         else:
             logger.debug(
-                f"Agendamento do cliente ID #{cliente_id} e data de agenda {data_agenda} encontrado")
+                f"Agendamento do cliente ID #{cliente_id}\
+                e data de agenda {data_agenda} encontrado")
             # retorna a representação de agendamentos
             return apresenta_agendamento(agendamento), 200
     except Exception as e:
@@ -234,7 +256,9 @@ def get_agendamento(query: AgendamentoBuscaSchema):
 
 
 @app.get('/agendamento_cliente', tags=[agendamento_tag],
-        responses={"200": AgendamentoViewSchema, "404": ErrorSchema, "500": ErrorSchema})
+         responses={"200": AgendamentoViewSchema,
+                    "404": ErrorSchema,
+                    "500": ErrorSchema})
 def get_agendamento_cliente(query: AgendamentoBuscaClienteSchema):
     """ Consulta um codigo de cliente se existe alguma agendamento
 
@@ -269,7 +293,9 @@ def get_agendamento_cliente(query: AgendamentoBuscaClienteSchema):
 
 
 @app.get('/agendamento_profissional', tags=[agendamento_tag],
-        responses={"200": AgendamentoViewSchema, "404": ErrorSchema, "500": ErrorSchema})
+         responses={"200": AgendamentoViewSchema,
+                    "404": ErrorSchema,
+                    "500": ErrorSchema})
 def get_agendamento_profissional(query: AgendamentoBuscaProfissionalSchema):
     """ Consulta um codigo do profissional se existe algum agendamento
 
@@ -300,11 +326,14 @@ def get_agendamento_profissional(query: AgendamentoBuscaProfissionalSchema):
         error_msg = f"Não foi possível consultar o agendamento :/{str(e)}"
         logger.warning(
             f"Erro ao consultar o agendamento do cliente, {error_msg}")
-        return {"message": error_msg}, 500
+
+        return {f"message: {error_msg}"}, 500
 
 
 @app.get('/agendamento_servico', tags=[agendamento_tag],
-        responses={"200": AgendamentoViewSchema, "404": ErrorSchema, "500": ErrorSchema})
+         responses={"200": AgendamentoViewSchema,
+                    "404": ErrorSchema,
+                    "500": ErrorSchema})
 def get_agendamento_servico(query: AgendamentoBuscaServicoSchema):
     """ Consulta um codigo do profissional se existe algum agendamento
 
@@ -316,7 +345,9 @@ def get_agendamento_servico(query: AgendamentoBuscaServicoSchema):
         # criando conexão com a base
         session = Session()
         # fazendo a busca
-        agendamento = session.query(Agendamento).filter(Agendamento.servico_id == id).first()
+        agendamento = session.query(Agendamento)\
+                             .filter(Agendamento.servico_id == id)\
+                             .first()
 
         if not agendamento:
             # se não há agendamento cadastrado
@@ -339,7 +370,7 @@ def get_agendamento_servico(query: AgendamentoBuscaServicoSchema):
 @app.delete('/agendamento', tags=[agendamento_tag],
             responses={"204": None, "404": ErrorSchema, "500": ErrorSchema})
 def del_agendamento(form: AgendamentoBuscaDelSchema):
-    """Exclui um agendamento do cliente da base de dados com base no codigo id do agendamento
+    """Exclui um agendamento da base de dados com o codigo id
 
     Retorna uma mensagem de exclusão com sucesso.
     """
@@ -358,28 +389,31 @@ def del_agendamento(form: AgendamentoBuscaDelSchema):
             logger.debug(f"Excluindo o agendamento do cliente ID #{id}")
             return '', 204
         else:
-            # se o agendamento do cliente não foi encontrado retorno o codigo http 404 not found
-            error_msg = "O Agendamento do cliente não foi encontrado na base :/"
+            # se o agendamento não foi encontrado retorno o codigo http 404
+            error_msg = "O Agendamento não foi encontrado na base"
             logger.warning(
-                f"Erro ao excluir o agendamento do cliente #'{id}', {error_msg}")
+                f"Erro ao excluir o agendamento do cliente do\
+                 ID #'{id}', {error_msg}")
             return '', 404
     except Exception as e:
         # caso um erro fora do previsto
         error_msg = "Não foi possível excluir o agendamento do cliente :/"
         logger.warning(
-            f"Erro ao excluir o agendamento do cliente com ID #'{id}', {error_msg}")
+            f"Erro ao excluir o agendamento do cliente com\
+            ID #'{id}', {error_msg}")
         return {"message": error_msg}, 500
 
 
 @app.post('/cliente', tags=[cliente_tag],
-          responses={"200": ClienteViewSchema, "409": ErrorSchema, "500": ErrorSchema})
+          responses={"200": ClienteViewSchema, "409": ErrorSchema,
+                     "500": ErrorSchema})
 def add_cliente(form: ClienteSchema):
     """Adiciona um novo cliente à base de dados
 
     Retorna uma representação do cliente.
     """
     cliente = Cliente(
-        nome=form.nome
+        nome=form.nome.strip()
     )
     logger.debug(f"Adicionando cliente de nome: '{cliente.nome}'")
     try:
@@ -408,7 +442,8 @@ def add_cliente(form: ClienteSchema):
 
 
 @app.put('/cliente', tags=[cliente_tag],
-         responses={"204": None, "400": ErrorSchema, "404": None, "500": ErrorSchema})
+         responses={"204": None, "400": ErrorSchema,
+                    "404": None, "500": ErrorSchema})
 def put_cliente(form: ClienteViewSchema):
     """Edita um cliente já cadastrado na base de dados
 
@@ -423,12 +458,12 @@ def put_cliente(form: ClienteViewSchema):
     try:
         # criando conexão com a base
         session = Session()
-        # fazendo a consulta para verificar se ja existe a descricao com outro codigo
+        # Consulta para verificar se ja existe a descricao com outro codigo
         cliente = session.query(Cliente).filter(
             Cliente.nome == nome and Cliente.id != id).first()
 
         if cliente:
-            # se o cliente foi encontrado retorna sem dar o commit e o codigo http 404 not found
+            # se foi encontrado retorna o codigo http 400
             error_msg = "Cliente já cadastrado na base"
             logger.warning(
                 f"Erro ao editar o cliente '{cliente.nome}', {error_msg}")
@@ -457,7 +492,8 @@ def put_cliente(form: ClienteViewSchema):
 
 
 @app.delete('/cliente', tags=[cliente_tag],
-            responses={"204": None, "404": None, "409": ErrorSchema, "500": ErrorSchema})
+            responses={"204": None, "404": None,
+                       "409": ErrorSchema, "500": ErrorSchema})
 def del_cliente(form: ClenteBuscaDeleteSchema):
     """Exclui um cliente da base de dados com base no codigo id do cliente
 
@@ -478,13 +514,14 @@ def del_cliente(form: ClenteBuscaDeleteSchema):
             logger.debug(f"Excluindo o cliente ID #{id}")
             return '', 204
         else:
-            # se o cliente não foi encontrado retorno o codigo http 404 not found
+            # quando não encontrado retorno o codigo http 404 not found
             error_msg = "Cliente não encontrado na base :/"
             logger.warning(f"Erro ao excluir o cliente #'{id}', {error_msg}")
             return '', 404
     except IntegrityError as e:
-        # como pode estar sendo referenciado na tabela agendamento ocorrera o erro na exclusao
-        error_msg = "o cadastro do cliente está referenciado em um agendamento!"
+        # caso de referencia na tabela agendamento retorna o erro na exclusao
+        error_msg = "o cadastro do cliente está\
+                     referenciado em um agendamento!"
         logger.warning(f"Erro ao excluir cliente', {error_msg}")
         return {"message": error_msg}, 409
     except Exception as e:
@@ -526,7 +563,7 @@ def get_cliente(query: ClienteBuscaSchema):
 
     Retorna uma representação do cliente
     """
-    cliente_nome = query.nome
+    cliente_nome = query.nome.strip()
     logger.debug(f"Coletando dados sobre cliente {cliente_nome}")
     # criando conexão com a base
     session = Session()
@@ -547,7 +584,9 @@ def get_cliente(query: ClienteBuscaSchema):
 
 
 @app.post('/profissional', tags=[profissional_tag],
-          responses={"200": ProfissionalViewSchema, "409": ErrorSchema, "400": ErrorSchema})
+          responses={"200": ProfissionalViewSchema,
+                     "409": ErrorSchema,
+                     "400": ErrorSchema})
 def add_profissional(form: ProfissionalSchema):
     """Adicionar um profissional à base de dados
 
@@ -573,19 +612,22 @@ def add_profissional(form: ProfissionalSchema):
         # como a duplicidade do nome é a provável razão do IntegrityError
         error_msg = "Profissional de mesmo nome já salvo na base :/"
         logger.warning(
-            f"Erro ao adicionar profissional '{profissional.nome}', {error_msg}")
+            f"Erro ao adicionar profissional\
+            '{profissional.nome}', {error_msg}")
         return {"mesage": error_msg}, 409
 
     except Exception as e:
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo item :/"
         logger.warning(
-            f"Erro ao adicionar profissional '{profissional.nome}', {error_msg}")
+            f"Erro ao adicionar profissional '\
+            {profissional.nome}', {error_msg}")
         return {"mesage": error_msg}, 400
 
 
 @app.put('/profissional', tags=[profissional_tag],
-         responses={"204": None, "400": ErrorSchema, "404": None, "500": ErrorSchema})
+         responses={"204": None, "400": ErrorSchema,
+                    "404": None, "500": ErrorSchema})
 def put_profissional(form: ProfissionalViewSchema):
     """Editar um profissional já cadastrado na base """
     id = form.id
@@ -595,7 +637,7 @@ def put_profissional(form: ProfissionalViewSchema):
 
         # criando conexão com a base
         session = Session()
-        # fazendo a consulta para verificar se ja existe a descricao com outro codigo
+        # Consulta para verificar se ja existe a descricao com outro codigo
         profissional = session.query(Profissional).filter(
             Profissional.nome == nome).filter(Profissional.id != id).first()
 
@@ -603,7 +645,8 @@ def put_profissional(form: ProfissionalViewSchema):
             # se o profissional foi encontrado retorna sem dar o commit
             error_msg = "Profissional já cadastrado na base"
             logger.warning(
-                f"Erro ao editar o profissional ID #{id}, '{profissional.nome}', {error_msg}")
+                f"Erro ao editar o profissional ID #{id},\
+                '{profissional.nome}', {error_msg}")
             return {"message": error_msg}, 400
         else:
             count = session.query(Profissional).filter(
@@ -614,7 +657,7 @@ def put_profissional(form: ProfissionalViewSchema):
                 logger.debug(f"Editado o profissional {nome}")
                 return '', 204
             else:
-                # se o profissional não foi encontrado, retorna o codigo not found 404
+                # se não foi encontrado, retorna o codigo not found 404
                 error_msg = "O profissional não foi encontrado"
                 logger.warning(
                     f"Erro ao editar o profissional '{nome}', {error_msg}")
@@ -623,7 +666,8 @@ def put_profissional(form: ProfissionalViewSchema):
         # caso um erro fora do previsto
         error_msg = f"Não foi possível editar o profissional :/{e.__str__}"
         logger.warning(
-            f"Erro ao editar o profissional com ID #'{id}' e profissional {nome}, {error_msg}")
+            f"Erro ao editar o profissional com ID #'{id}'\
+            e profissional {nome}, {error_msg}")
         return {"message": error_msg}, 500
 
 
@@ -646,7 +690,7 @@ def del_profissional(form: ProfissionalBuscaExclusaoSchema):
             logger.debug(f"Excluindo o profissional ID #{id}")
             return '', 204
         else:
-            # se o profissional não foi encontrado, retorna o codigo not found 404
+            # se não foi encontrado, retorna o codigo not found 404
             error_msg = "Profissional não encontrado na base :/"
             logger.warning(
                 f"Erro ao excluir o profissional #'{id}', {error_msg}")
@@ -686,7 +730,7 @@ def get_profissionais():
 @app.get('/profissional', tags=[profissional_tag],
          responses={"200": ProfissionalViewSchema, "404": ErrorSchema})
 def get_profissional(query: ProfissionalBuscaSchema):
-    """Faz a busca por um profissional a partir do nome 
+    """Faz a busca por um profissional a partir do nome
 
     Retorna uma representação do profissional
     """
@@ -702,7 +746,8 @@ def get_profissional(query: ProfissionalBuscaSchema):
         # se o profissional não for encontrado
         error_msg = "Profissional não encontrado na base :/"
         logger.warning(
-            f"Erro ao buscar o profissional '{profissional_nome}', {error_msg}")
+            f"Erro ao buscar o profissional '{profissional_nome}'\
+            , {error_msg}")
         return {"message": error_msg}, 404
     else:
         logger.debug(f"Profissional encontrado: '{profissional.nome}'")
@@ -715,11 +760,12 @@ def get_profissional(query: ProfissionalBuscaSchema):
 def post_servico(form: ServicoSchema):
     """Adiciona um novo serviço à base de dados """
     servico = Servico(
-        descricao=form.descricao,
+        descricao=form.descricao.strip(),
         valor=form.valor
     )
     logger.debug(
-        f"Adicionando um servico com a descrição: '{servico.descricao}' e valor = {servico.valor}")
+        f"Adicionando um servico com a descrição: '{servico.descricao}'\
+         e valor = {servico.valor}")
     try:
         # criando conexão com a base
         session = Session()
@@ -728,7 +774,8 @@ def post_servico(form: ServicoSchema):
         # efetivando o camando de adição de novo item na tabela
         session.commit()
         logger.debug(
-            f"Adicionado o serviço com a descrição: '{servico.descricao}' e valor = {servico.valor}")
+            f"Adicionado o serviço com a descrição: '{servico.descricao}'\
+              e valor = {servico.valor}")
         return apresenta_servico(servico), 201
     except IntegrityError as e:
         # como a duplicidade do nome é a provável razão do IntegrityError
@@ -737,7 +784,7 @@ def post_servico(form: ServicoSchema):
             f"Erro ao adicionar o serviço '{servico.descricao}', {error_msg}")
         return {"mesage": error_msg}, 409
     except Exception as e:
-       # caso um erro fora do previsto
+        # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo item :/"
         logger.warning(
             f"Erro ao adicionar o serviço '{servico.descricao}', {error_msg}")
@@ -745,7 +792,8 @@ def post_servico(form: ServicoSchema):
 
 
 @app.put('/servico', tags=[servico_tag],
-         responses={"204": None, "404": None, "409": ErrorSchema, "500": ErrorSchema})
+         responses={"204": None, "404": None,
+                    "409": ErrorSchema, "500": ErrorSchema})
 def put_servico(form: ServicoEditSchema):
     """ Editando o serviço com a busca pelo id """
     id = form.id
@@ -756,7 +804,7 @@ def put_servico(form: ServicoEditSchema):
     try:
         # criando conexão com a base
         session = Session()
-        # fazendo a consulta para verificar se ja existe a descricao com outro codigo
+        # verificar se ja existe a descricao com outro codigo
         servico_busca = session.query(Servico).filter(
             Servico.descricao == descricao).filter(Servico.id != id).first()
 
@@ -775,7 +823,7 @@ def put_servico(form: ServicoEditSchema):
                 logger.debug(f"Editado o serviço {descricao}")
                 return '', 204
             else:
-                # se o serviço não foi encontrado, retorna o codigo not found 404
+                # se o serviço não foi encontrado, retorna o codigo 404
                 error_msg = "O serviço não foi encontrado"
                 logger.warning(
                     f"Erro ao editar o serviço '{descricao}', {error_msg}")
