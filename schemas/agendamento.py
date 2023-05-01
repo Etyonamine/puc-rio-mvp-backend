@@ -9,7 +9,7 @@ from model.cliente import Cliente
 
 class AgendamentoSchema(BaseModel):
     """Define como um novo agendamento deve ser inserido """
-    data_agenda: str = "01/04/2023 08:00:00"
+    data_agenda: str = "01/01/2023 08:00:00"
     observacao: str = ""
     cliente_id: int = 1
     profissional_id: int = 1
@@ -64,6 +64,7 @@ def apresenta_agendamentos(agendamentos: List[Agendamento]):
     """
     result = []
     for agendamento in agendamentos:
+        data_agenda= agendamento.data_agenda 
         result.append({
             "agenda_id": agendamento.id,
             "data_agenda": agendamento.data_agenda,
@@ -120,7 +121,7 @@ class AgendamentoDelSchema(BaseModel):
 class AgendamentoEditSchema(BaseModel):
     """Define como será recebido os dados para a edição """
     id: int = 1
-    data_agenda: str = '2023/03/01 00:00'
+    data_agenda: str = '2023-01-01 08:00:00'
     cliente_id: int = 1
     profissional_id: int = 1
     servico_id: int = 1
