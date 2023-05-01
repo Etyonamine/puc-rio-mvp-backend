@@ -1,45 +1,65 @@
-[2023-04-28 00:47:24,897] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:47:24] "[35m[1mDELETE /cliente HTTP/1.1[0m" 204 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:47:57,225] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:47:57] "GET /clientes HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:48:41,710] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:48:41] "POST /cliente HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:49:08,763] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:49:08] "OPTIONS /cliente HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:49:08,779] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:49:08] "[35m[1mPUT /cliente HTTP/1.1[0m" 204 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:49:31,188] WARNING get_agendamento_cliente() L252  Erro ao buscar o agendamento , Agendamento não encontrado na base :/ - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py L252 
-[2023-04-28 00:49:31,189] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:49:31] "[33mGET /agendamento_cliente?cliente_id=4 HTTP/1.1[0m" 404 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:49:31,195] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:49:31] "OPTIONS /cliente HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:49:31,209] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:49:31] "[35m[1mDELETE /cliente HTTP/1.1[0m" 204 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:50:41,024] INFO _log() L224   * Running on all addresses (0.0.0.0)
+[2023-04-30 13:06:15,327] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:06:15] "GET /agendamento_id?id=5 HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:06:15,472] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:06:15] "GET /clientes HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:06:15,473] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:06:15] "GET /profissionais HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:06:15,473] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:06:15] "GET /servicos HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:06:15,476] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:06:15] "GET /agendamentos HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:06:56,866] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:06:56] "GET /clientes HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:06:56,867] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:06:56] "GET /profissionais HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:06:56,867] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:06:56] "GET /servicos HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:06:56,872] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:06:56] "GET /agendamentos HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:12:32,699] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:12:32] "GET /clientes HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:12:32,701] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:12:32] "GET /profissionais HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:12:32,702] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:12:32] "GET /servicos HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:12:32,708] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:12:32] "GET /agendamentos HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:13:16,652] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:13:16] "GET /clientes HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:13:16,653] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:13:16] "GET /servicos HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:13:16,654] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:13:16] "GET /profissionais HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:13:16,658] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:13:16] "GET /agendamentos HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:14:10,343] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:14:10] "GET /clientes HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:14:10,348] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:14:10] "GET /servicos HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:14:10,350] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:14:10] "GET /profissionais HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:14:10,355] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:14:10] "GET /agendamentos HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:14:53,598] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:14:53] "GET /clientes HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:14:53,599] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:14:53] "GET /profissionais HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:14:53,602] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:14:53] "GET /servicos HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:14:53,610] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:14:53] "GET /agendamentos HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:24:32,520] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:24:32] "GET /agendamentos HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:25:04,938] ERROR log_exception() L1449 Exception on /agendamento [POST] - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py L1449
+Traceback (most recent call last):
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 2073, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1519, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_cors\extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+                                                ^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1517, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask\app.py", line 1503, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_openapi3\scaffold.py", line 191, in wrapper
+    resp = _do_wrapper(
+           ^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\flask_openapi3\do_wrapper.py", line 135, in _do_wrapper
+    response = func(**request_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py", line 60, in add_agendamento
+    data_agenda=datetime.strptime(form.data_agenda, "%d/%m/%Y %H:%M:%S %z"),
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\edumi\AppData\Local\Programs\Python\Python311\Lib\_strptime.py", line 568, in _strptime_datetime
+    tt, fraction, gmtoff_fraction = _strptime(data_string, format)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\edumi\AppData\Local\Programs\Python\Python311\Lib\_strptime.py", line 349, in _strptime
+    raise ValueError("time data %r does not match format %r" %
+ValueError: time data '2023-01-01 08:00:00' does not match format '%d/%m/%Y %H:%M:%S'
+[2023-04-30 13:25:04,947] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:25:04] "[35m[1mPOST /agendamento HTTP/1.1[0m" 500 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:27:03,471] INFO _log() L224   * Running on all addresses (0.0.0.0)
    WARNING: This is a development server. Do not use it in a production deployment.
  * Running on http://127.0.0.1:5000
  * Running on http://192.168.15.138:5000 (Press CTRL+C to quit) - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:50:42,790] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:50:42] "[32mGET / HTTP/1.1[0m" 302 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:50:42,808] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:50:42] "GET /openapi/ HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:50:42,908] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:50:42] "[36mGET /openapi/static/images/swagger.svg HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:50:42,913] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:50:42] "[36mGET /openapi/static/images/rapidoc.svg HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:50:42,914] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:50:42] "[36mGET /openapi/static/images/redoc.svg HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:50:47,683] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:50:47] "GET /openapi/swagger HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:50:47,707] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:50:47] "[36mGET /openapi/static/css/swagger-ui.css HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:50:47,713] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:50:47] "[36mGET /openapi/static/js/swagger-ui-bundle.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:50:47,713] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:50:47] "[36mGET /openapi/static/js/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:50:47,839] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:50:47] "GET /openapi/openapi.json HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:51:56,559] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:51:56] "GET /clientes HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:52:25,226] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:52:25] "POST /cliente HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:52:52,013] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:52:52] "GET /cliente?nome=Roberto HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:53:25,074] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:53:25] "[35m[1mPUT /cliente HTTP/1.1[0m" 204 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:53:42,273] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:53:42] "[35m[1mDELETE /cliente HTTP/1.1[0m" 204 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:54:04,627] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:54:04] "GET /clientes HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:54:55,382] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:54:55] "POST /cliente HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:55:22,211] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:55:22] "OPTIONS /cliente HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:55:22,227] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:55:22] "[35m[1mPUT /cliente HTTP/1.1[0m" 204 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:55:43,569] WARNING get_agendamento_cliente() L252  Erro ao buscar o agendamento , Agendamento não encontrado na base :/ - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\app.py L252 
-[2023-04-28 00:55:43,570] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:55:43] "[33mGET /agendamento_cliente?cliente_id=4 HTTP/1.1[0m" 404 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:55:43,574] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:55:43] "OPTIONS /cliente HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:55:43,588] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:55:43] "[35m[1mDELETE /cliente HTTP/1.1[0m" 204 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:56:54,971] INFO _log() L224   * Running on all addresses (0.0.0.0)
-   WARNING: This is a development server. Do not use it in a production deployment.
- * Running on http://127.0.0.1:5000
- * Running on http://192.168.15.138:5000 (Press CTRL+C to quit) - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:56:57,045] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:56:57] "[32mGET / HTTP/1.1[0m" 302 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:56:57,060] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:56:57] "GET /openapi/ HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:56:57,161] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:56:57] "[36mGET /openapi/static/images/swagger.svg HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:56:57,165] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:56:57] "[36mGET /openapi/static/images/redoc.svg HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
-[2023-04-28 00:56:57,166] INFO _log() L224  127.0.0.1 - - [28/Apr/2023 00:56:57] "[36mGET /openapi/static/images/rapidoc.svg HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:27:08,182] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:27:08] "GET /openapi/swagger HTTP/1.1" 200 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 
+[2023-04-30 13:27:08,295] INFO _log() L224  127.0.0.1 - - [30/Apr/2023 13:27:08] "[36mGET /openapi/static/css/swagger-ui.css HTTP/1.1[0m" 304 - - call_trace=C:\PUC-RIO\Sprint-1\BackEnd\puc-rio-mvp-sprint-1-back-end\venv\Lib\site-packages\werkzeug\_internal.py L224 

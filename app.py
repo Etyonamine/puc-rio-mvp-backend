@@ -44,6 +44,8 @@ def home():
     return redirect('/openapi')
 
 
+# ***************************************************  Metodos do Agendamento ***************************************
+# Novo registro na tabela de agendamento -  metodo demonstrado no video do mvp
 @app.post('/agendamento', tags=[agendamento_tag],
           responses={"201": AgendamentoViewSchema,
                      "404": ErrorSchema,
@@ -53,6 +55,7 @@ def add_agendamento(form: AgendamentoSchema):
 
        Retorna uma representação do Agendamento do cliente.
     """
+    
     agendamento = Agendamento(
         data_agenda=datetime.strptime(form.data_agenda, "%d/%m/%Y %H:%M:%S"),
         observacao=form.observacao,
@@ -90,6 +93,7 @@ def add_agendamento(form: AgendamentoSchema):
         return {"message": error_msg}, 400
 
 
+# Edição de um agendamento
 @app.put('/agendamento', tags=[agendamento_tag],
          responses={"204": None,
                     "404": ErrorSchema,
@@ -98,6 +102,7 @@ def upd_agendamento(form: AgendamentoEditSchema):
     """Editar uma agenda já cadastrado na base """
     id = form.id
     data_agenda = datetime.strptime(form.data_agenda, "%Y-%m-%d %H:%M:%S")
+    print(form.data_agenda)
     logger.debug(f"Editando o agendamento #{id}")
     try:
 
@@ -147,6 +152,45 @@ def upd_agendamento(form: AgendamentoEditSchema):
         return {"message": error_msg}, 500
 
 
+# Remoção de um registro de um agendamento  - metodo demonstrado no video do mvp
+@app.delete('/agendamento', tags=[agendamento_tag],
+            responses={"204": None, "404": ErrorSchema, "500": ErrorSchema})
+def del_agendamento(form: AgendamentoBuscaDelSchema):
+    """Exclui um agendamento da base de dados com o codigo id
+
+    Retorna uma mensagem de exclusão com sucesso.
+    """
+    id = form.id
+    logger.debug(f"Excluindo o agendamento do Cliente ID #{id}")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a remoção
+        count = session.query(Agendamento).filter(
+            Agendamento.id == id).delete()
+        session.commit()
+
+        if count:
+            # retorna sem representação com apenas o codigo http 204
+            logger.debug(f"Excluindo o agendamento do cliente ID #{id}")
+            return '', 204
+        else:
+            # se o agendamento não foi encontrado retorno o codigo http 404
+            error_msg = "O Agendamento não foi encontrado na base"
+            logger.warning(
+                f"Erro ao excluir o agendamento do cliente do\
+                 ID #'{id}', {error_msg}")
+            return '', 404
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível excluir o agendamento do cliente :/"
+        logger.warning(
+            f"Erro ao excluir o agendamento do cliente com\
+            ID #'{id}', {error_msg}")
+        return {"message": error_msg}, 500
+
+
+# Consulta de todos os agendamentos -  metodo demonstrado no video do mvp
 @app.get('/agendamentos', tags=[agendamento_tag],
          responses={"200": ListagemAgendamentoSchema, "500": ErrorSchema})
 def get_agendamentos():
@@ -367,43 +411,7 @@ def get_agendamento_servico(query: AgendamentoBuscaServicoSchema):
         return {"message": error_msg}, 500
 
 
-@app.delete('/agendamento', tags=[agendamento_tag],
-            responses={"204": None, "404": ErrorSchema, "500": ErrorSchema})
-def del_agendamento(form: AgendamentoBuscaDelSchema):
-    """Exclui um agendamento da base de dados com o codigo id
-
-    Retorna uma mensagem de exclusão com sucesso.
-    """
-    id = form.id
-    logger.debug(f"Excluindo o agendamento do Cliente ID #{id}")
-    try:
-        # criando conexão com a base
-        session = Session()
-        # fazendo a remoção
-        count = session.query(Agendamento).filter(
-            Agendamento.id == id).delete()
-        session.commit()
-
-        if count:
-            # retorna sem representação com apenas o codigo http 204
-            logger.debug(f"Excluindo o agendamento do cliente ID #{id}")
-            return '', 204
-        else:
-            # se o agendamento não foi encontrado retorno o codigo http 404
-            error_msg = "O Agendamento não foi encontrado na base"
-            logger.warning(
-                f"Erro ao excluir o agendamento do cliente do\
-                 ID #'{id}', {error_msg}")
-            return '', 404
-    except Exception as e:
-        # caso um erro fora do previsto
-        error_msg = "Não foi possível excluir o agendamento do cliente :/"
-        logger.warning(
-            f"Erro ao excluir o agendamento do cliente com\
-            ID #'{id}', {error_msg}")
-        return {"message": error_msg}, 500
-
-
+# ***************************************************  Metodos do Cliente ***************************************
 @app.post('/cliente', tags=[cliente_tag],
           responses={"200": ClienteViewSchema, "409": ErrorSchema,
                      "500": ErrorSchema})
@@ -582,7 +590,7 @@ def get_cliente(query: ClienteBuscaSchema):
         # retorna a representação de cliente
         return apresenta_cliente(cliente), 200
 
-
+# ***************************************************  Metodos do Profissional ***************************************
 @app.post('/profissional', tags=[profissional_tag],
           responses={"200": ProfissionalViewSchema,
                      "409": ErrorSchema,
@@ -755,6 +763,7 @@ def get_profissional(query: ProfissionalBuscaSchema):
         return apresenta_profissional(profissional), 200
 
 
+# ***************************************************  Metodos do Serviço ***************************************
 @app.post('/servico', tags=[servico_tag],
           responses={"201": None, "400": ErrorSchema})
 def post_servico(form: ServicoSchema):
