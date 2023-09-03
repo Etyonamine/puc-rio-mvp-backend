@@ -5,7 +5,7 @@ from urllib.parse import unquote
 
 from sqlalchemy.exc import IntegrityError
 
-from model import Session, Agendamento, Cliente, Profissional, Servico
+from model import Session, Marca, Modelo, Agendamento, Cliente, Profissional, Servico
 from logger import logger
 from schemas import *
 from flask_cors import CORS
@@ -19,6 +19,15 @@ CORS(app)
 home_tag = Tag(name="Documentação",
                description="Seleção de documentação: Swagger,\
                              Redoc ou RapiDoc")
+
+marca_tag = Tag(
+    name="Marca", description="Adição, visualização,\
+                                    edição e remoção de marcas de veiculos à base")
+
+modelo_tag = Tag(
+    name="Modelo", description="Adição, visualização,\
+                                    edição e remoção de modelos de marcas de veiculos à base")
+
 
 agendamento_tag = Tag(
     name="Agendamento", description="Adição, visualização,\
@@ -44,112 +53,405 @@ def home():
     return redirect('/openapi')
 
 
-# ***************************************************  Metodos do Agendamento ***************************************
-# Novo registro na tabela de agendamento -  metodo demonstrado no video do mvp
-@app.post('/agendamento', tags=[agendamento_tag],
-          responses={"201": AgendamentoViewSchema,
+
+# ***************************************************  Metodos do marca do veiculo ***************************************
+# Novo registro na tabela marca do veiculo
+@app.post('/marca', tags=[marca_tag],
+          responses={"201": MarcaViewSchema,
                      "404": ErrorSchema,
                      "500": ErrorSchema})
-def add_agendamento(form: AgendamentoSchema):
-    """Adicionar o Agendamento de serviços do cliente
-
-       Retorna uma representação do Agendamento do cliente.
-    """
-    
-    agendamento = Agendamento(
-        data_agenda=datetime.strptime(form.data_agenda, "%d/%m/%Y %H:%M:%S"),
-        observacao=form.observacao,
-        cliente_id=form.cliente_id,
-        profissional_id=form.profissional_id,
-        servico_id=form.servico_id
+def add_marca(form: MarcaSchema):
+    """ Adicionar a marca de veículo """
+    marca = Marca(
+      cod_marca = form.codigo,
+      des_nome = form.nome
     )
-    logger.debug(
-        f"Adicionando agendamento de serviço de cliente na\
-         data de: '{agendamento.data_agenda}'")
+
+    logger.debug(f"Adicionando a marca de veículo com o nome '{marca.nom_marca}'")
     try:
         # criando conexão com a base
         session = Session()
         # adicionando agendamento
-        session.add(agendamento)
+        session.add(marca)
         # efetivando o comando de adição de novo item na tabela
         session.commit()
         logger.debug(
-            f"Adicionado agendamento do cliente com\
-             data em: '{agendamento.data_agenda}'")
-        return apresenta_agendamento(agendamento), 200
+            f"Adicionado a marca do veículo com o nome: '{marca.nom_marca}'")
+        return apresenta_marca(marca), 200
 
     except IntegrityError as e:
         # como a duplicidade do nome é a provável razão do IntegrityError
-        error_msg = "Agendamento com a mesma data já salvo na base :/"
+        error_msg = "A marca de veículo com o mesmo nome já foi salvo anteriormente na base :/"
         logger.warning(
-            f"Erro ao adicionar  o agendamento do cliente com data = '\
-            {agendamento.data_agenda}', {error_msg}")
+            f"Erro ao adicionar a marca do veículo com nome ={marca.nom_marca}', {error_msg}")
         return {"message": error_msg}, 409
 
     except Exception as e:
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo item :/"
-        logger.warning(f"Erro ao adicionar cliente, {error_msg}")
+        logger.warning(f"Erro ao adicionar uma nova marca de veículo, {error_msg}")
         return {"message": error_msg}, 400
 
 
-# Edição de um agendamento
-@app.put('/agendamento', tags=[agendamento_tag],
+# Edicao registro na tabela marca do veiculo
+@app.put('/marca', tags=[marca_tag],
          responses={"204": None,
                     "404": ErrorSchema,
                     "500": ErrorSchema})
-def upd_agendamento(form: AgendamentoEditSchema):
-    """Editar uma agenda já cadastrado na base """
-    id = form.id
-    data_agenda = datetime.strptime(form.data_agenda, "%Y-%m-%d %H:%M:%S")
-    print(form.data_agenda)
-    logger.debug(f"Editando o agendamento #{id}")
+def upd_marca(form: MarcaEditSchema):
+    """Editar uma marca de veiculojá cadastrado na base """
+    codigo_marca = form.codigo
+    nome_marca = form.nome
+
+    logger.debug(f"Editando a marca de veículo #{codigo_marca}")
     try:
 
         # criando conexão com a base
         session = Session()
         # Consulta se ja existe a descricao com outro codigo
-        agendamento = session.query(Agendamento)\
-                             .filter(Agendamento.profissional_id
-                                     == form.profissional_id)\
-                             .filter(Agendamento.data_agenda == data_agenda)\
-                             .filter(Agendamento.id != id)\
-                             .filter(
-                                    Agendamento.cliente_id != form.cliente_id)\
-                             .first()
 
-        if agendamento:
+
+        marca = session.query(Marca)\
+                             .filter(Marca.nom_marca ==  nome_marca
+                                and Marca.cod_marca != codigo_marca
+                             ).first()
+
+        if marca:
             # se foi encontrado retorna sem dar o commit
-            error_msg = "Existe outro agendamento com\
-                         o mesmo profissional para outro cliente!"
+            error_msg = "Existe outro registro com\
+                         o mesmo nome!"
             logger.warning(
-                f"Erro ao editar o profissional ID #{id}, {error_msg}")
+                f"Erro ao editar a marca com o codigo #{codigo_marca}, {error_msg}")
             return {"message": error_msg}, 400
-        else:
-            logger.warning(f"observacao = {form.observacao}")
-            count = session.query(Agendamento)\
-                           .filter(Agendamento.id == id)\
-                           .update({"cliente_id": form.cliente_id,
-                                    "profissional_id": form.profissional_id,
-                                    "servico_id": form.servico_id,
-                                    "observacao": form.observacao})
+        else:            
+            count = session.query(Marca).filter(
+                Marca.cod_marca == id).update({"nom_marca": nome_marca})
             session.commit()
             if count:
                 # retorna sem representação com apenas o codigo http 204
-                logger.debug(f"Editado o agendamento ID #{id}")
+                logger.debug(f"Editado a marca {nome_marca}")
                 return '', 204
             else:
-                # se não foi encontrado, retorna o codigo not found 404
-                error_msg = "O agendamento não foi encontrado"
+                error_msg = f"A marca com o nome {nome_marca} não foi encontrado na base"
                 logger.warning(
-                    f"Erro ao editar o agendamento ID #'{id}', {error_msg}")
+                    f"Erro ao editar a marca '{nome_marca}', {error_msg}")
                 return '', 404
     except Exception as e:
         # caso um erro fora do previsto
-        error_msg = f"Não foi possível editar o agendamento :/{e.__str__}"
+        error_msg = f"Não foi possível editar a marca :/{e.__str__}"
         logger.warning(
-            f"Erro ao editar o agendamento com ID #'{id}', {error_msg}")
+            f"Erro ao editar a marca com o nome  #'{nome_marca}', {error_msg}")
         return {"message": error_msg}, 500
+
+# Remoção de um registro de marca de veiculo
+@app.delete('/marca', tags=[marca_tag],
+            responses={"204": None, "404": ErrorSchema, "500": ErrorSchema})
+def del_marca(form: MarcaBuscaDelSchema):
+    """Exclui uma marca da base de dados através do atributo codigo
+
+    Retorna uma mensagem de exclusão com sucesso.
+    """
+    codigo = form.codigo
+    logger.debug(f"Excluindo a marcaID #{codigo}")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a remoção
+        count = session.query(Marca).filter(
+            Marca.cod_marca == codigo).delete()
+        session.commit()
+
+        if count:
+            # retorna sem representação com apenas o codigo http 204
+            logger.debug(f"Excluindo a marca do veiculo codigo #{codigo}")
+            return '', 204
+        else:
+            # se o agendamento não foi encontrado retorno o codigo http 404
+            error_msg = "A marca de veículo não foi encontrado na base"
+            logger.warning(
+                f"Erro ao excluir a marca de veiculo \
+                 codigo #'{codigo}', {error_msg}")
+            return '', 404
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível excluir marca do veiculo :/"
+        logger.warning(
+            f"Erro ao excluir a marca do veiculo com\
+            o codigo #'{codigo}', {error_msg}")
+        return {"message": error_msg}, 500
+
+
+# Consulta de todos as marcas
+@app.get('/marcas', tags=[marca_tag],
+         responses={"200": ListaMarcasSchema, "500": ErrorSchema})
+def get_marcas():
+    """Consulta as marcas de veículos
+
+    Retorna uma listagem de representações das marcas de veiculos encontrados.
+    """
+    logger.debug(f"Consultando as marcas de veículos ")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a busca
+        lista = session.query(Marca).all()
+
+        if not lista:
+            # se não há marcas cadastrados
+            return {"marcas": []}, 200
+        else:
+            logger.debug(f"%d marcas de veículos encontrados" %
+                         len(lista))
+            # retorna a representação de marcas
+            return apresenta_lista_marca(lista), 200
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = f"Não foi possível consultar as marcas de listas :/{str(e)}"
+        logger.warning(
+            f"Erro ao consultar as marcas dos veículos, {error_msg}")
+        return {"message": error_msg}, 500
+
+
+# Consulta por código de marca
+@app.get('/marca_id', tags=[marca_tag],
+         responses={"200": MarcaViewSchema, "404": ErrorSchema,
+                    "500": ErrorSchema})
+def get_agendamento_id(query: MarcaBuscaDelSchema):
+    """Consulta um marca pelo codigo
+
+    Retorna uma representação da marca do veículo
+    """
+
+    codigo = query.codigo
+
+    logger.debug(
+        f"Consultando a marca por codigo = #{codigo} ")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a busca
+        marca = session.query(Marca)\
+                             .filter(Marca.cod_marca == codigo).first()
+
+        if not marca:
+            # se não há agendamento cadastrado
+            error_msg = "Marca não encontrado na base :/"
+            logger.warning(f"Erro ao buscar a marca de veículo , {error_msg}")
+            return {"message": error_msg}, 404
+        else:
+            logger.debug(
+                f"Marca do veículo #{codigo} encontrado")
+            # retorna a representação de agendamentos
+            return apresenta_marca(marca), 200
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = f"Não foi possível consultar a marca do veículo :/{str(e)}"
+        logger.warning(
+            f"Erro ao consultar a marca do veículo, {error_msg}")
+        return {"message": error_msg}, 500
+
+
+# ***************************************************  Metodos do modelo da marca do veiculo ***************************************
+# Novo registro na tabela modelo da marca do veiculo
+@app.post('/modelo', tags=[modelo_tag],
+          responses={"201": ModeloViewSchema,
+                     "404": ErrorSchema,
+                     "500": ErrorSchema})
+def add_modelo(form: ModeloSchema):
+    """ Adicionar o modelo de veículo """
+    modelo = Modelo(
+      cod_modelo = form.codigo,
+      nom_modelo = form.nome
+    )
+
+    logger.debug(f"Adicionando o modelo da marca de veículo com o nome '{modelo.nom_modelo}'")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # adicionando agendamento
+        session.add(modelo)
+        # efetivando o comando de adição de novo item na tabela
+        session.commit()
+        logger.debug(
+            f"Adicionado a marca do veículo com o nome: '{modelo.nom_modelo}'")
+        return apresenta_modelo(modelo), 200
+
+    except IntegrityError as e:
+        # como a duplicidade do nome é a provável razão do IntegrityError
+        error_msg = "O modelo da marca de veículo com o mesmo nome já foi salvo anteriormente na base :/"
+        logger.warning(
+            f"Erro ao adicionar o modelo da marca do veículo com o nome ={modelo.nom_modelo}', {error_msg}")
+        return {"message": error_msg}, 409
+
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível salvar novo item :/"
+        logger.warning(f"Erro ao adicionar uma novo modelo da marca de veículo, {error_msg}")
+        return {"message": error_msg}, 400
+
+
+# Edicao registro na tabela modelo da marca do veiculo
+@app.put('/modelo', tags=[modelo_tag],
+         responses={"204": None,
+                    "404": ErrorSchema,
+                    "500": ErrorSchema})
+def upd_modelo(form: ModeloEditSchema):
+    """Editar um modelo de veiculojá cadastrado na base """
+    codigo_modelo = form.codigo
+    nome_modelo = form.nome
+
+    logger.debug(f"Editando a marca de veículo #{codigo_modelo}")
+    try:
+
+        # criando conexão com a base
+        session = Session()
+        # Consulta se ja existe a descricao com outro codigo
+
+
+        modelo = session.query(Modelo)\
+                             .filter(Modelo.nom_marca ==  nome_modelo
+                                and Modelo.cod_marca != codigo_modelo
+                             ).first()
+
+        if modelo:
+            # se foi encontrado retorna sem dar o commit
+            error_msg = "Existe outro registro com\
+                         o mesmo nome!"
+            logger.warning(
+                f"Erro ao editar a marca com o codigo #{codigo_modelo}, {error_msg}")
+            return {"message": error_msg}, 400
+        else:            
+            count = session.query(Marca).filter(
+                Marca.cod_marca == id).update({"nom_marca": nome_modelo})
+            session.commit()
+            if count:
+                # retorna sem representação com apenas o codigo http 204
+                logger.debug(f"Editado a marca {nome_modelo}")
+                return '', 204
+            else:
+                error_msg = f"A marca com o nome {nome_modelo} não foi encontrado na base"
+                logger.warning(
+                    f"Erro ao editar a marca '{nome_modelo}', {error_msg}")
+                return '', 404
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = f"Não foi possível editar a marca :/{e.__str__}"
+        logger.warning(
+            f"Erro ao editar a marca com o nome  #'{nome_modelo}', {error_msg}")
+        return {"message": error_msg}, 500
+
+
+# Remoção de um registro de modelo de veiculo
+@app.delete('/modelo', tags=[modelo_tag],
+            responses={"204": None, "404": ErrorSchema, "500": ErrorSchema})
+def del_modelo(form: ModeloBuscaDelSchema):
+    """Exclui uma modelo da base de dados através do atributo codigo
+
+    Retorna uma mensagem de exclusão com sucesso.
+    """
+    codigo = form.codigo
+    logger.debug(f"Excluindo a marcaID #{codigo}")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a remoção
+        count = session.query(Modelo).filter(
+            Modelo.cod_modelo == codigo).delete()
+        session.commit()
+
+        if count:
+            # retorna sem representação com apenas o codigo http 204
+            logger.debug(f"Excluindo o modelo do veiculo codigo #{codigo}")
+            return '', 204
+        else:
+            # se o agendamento não foi encontrado retorno o codigo http 404
+            error_msg = "O modelo de veículo não foi encontrado na base"
+            logger.warning(
+                f"Erro ao excluir o modelo de veiculo \
+                 codigo #'{codigo}', {error_msg}")
+            return '', 404
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = "Não foi possível excluir o modelo do veiculo :/"
+        logger.warning(
+            f"Erro ao excluir o modelo do veiculo com\
+            o codigo #'{codigo}', {error_msg}")
+        return {"message": error_msg}, 500
+
+
+# Consulta de todos os modelos
+@app.get('/modelos', tags=[modelo_tag],
+         responses={"200": ListaModelosSchema, "500": ErrorSchema})
+def get_marcas():
+    """Consulta os modelos de veículos
+
+    Retorna uma listagem de representações dos modelos de veiculos encontrados.
+    """
+    logger.debug(f"Consultando os modelos de veículos ")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a busca
+        lista = session.query(Modelo).all()
+
+        if not lista:
+            # se não há marcas cadastrados
+            return {"modelos": []}, 200
+        else:
+            logger.debug(f"%d modelos de veículos encontrados" %
+                         len(lista))
+            # retorna a representação de modelos
+            return apresenta_lista_modelo(lista), 200
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = f"Não foi possível consultar os modelos :/{str(e)}"
+        logger.warning(
+            f"Erro ao consultar os modelos dos veículos, {error_msg}")
+        return {"message": error_msg}, 500
+
+
+
+# Consulta por código de marca
+@app.get('/modelo_id', tags=[modelo_tag],
+         responses={"200": ModeloViewSchema, "404": ErrorSchema,
+                    "500": ErrorSchema})
+def get_agendamento_id(query: ModeloBuscaDelSchema):
+    """Consulta um modelo pelo codigo
+
+    Retorna uma representação da modelo do veículo
+    """
+
+    codigo = query.codigo
+
+    logger.debug(
+        f"Consultando um modelo por codigo = #{codigo} ")
+    try:
+        # criando conexão com a base
+        session = Session()
+        # fazendo a busca
+        modelo = session.query(Modelo)\
+                             .filter(Modelo.cod_modelo == codigo).first()
+
+        if not modelo:
+            # se não há agendamento cadastrado
+            error_msg = "Modelo não encontrado na base :/"
+            logger.warning(f"Erro ao buscar o modelo de veículo , {error_msg}")
+            return {"message": error_msg}, 404
+        else:
+            logger.debug(
+                f"Modelo do veículo #{codigo} encontrado")
+            # retorna a representação de agendamentos
+            return apresenta_modelo(modelo), 200
+    except Exception as e:
+        # caso um erro fora do previsto
+        error_msg = f"Não foi possível consultar a marca do veículo :/{str(e)}"
+        logger.warning(
+            f"Erro ao consultar a marca do veículo, {error_msg}")
+        return {"message": error_msg}, 500
+
+
+
+
 
 
 # Remoção de um registro de um agendamento  - metodo demonstrado no video do mvp

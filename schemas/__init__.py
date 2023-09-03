@@ -1,5 +1,11 @@
 from schemas.error import ErrorSchema
 
+from schemas.marca import MarcaSchema,MarcaViewSchema, MarcaEditSchema, apresenta_marca,ListaMarcasSchema,\
+                          apresenta_lista_marca,MarcaBuscaDelSchema
+
+from schemas.modelo import ModeloSchema,ModeloEditSchema,ModeloBuscaDelSchema, ModeloViewSchema,ListaModelosSchema,\
+                           apresenta_modelo,apresenta_lista_modelo
+
 from schemas.agendamento import AgendamentoSchema, AgendamentoBuscaSchema, ListagemAgendamentoSchema,\
                                 AgendamentoViewSchema, apresenta_agendamento,apresenta_agendamentos,\
                                 AgendamentoDelSchema, AgendamentoBuscaDelSchema, AgendamentoBuscaClienteSchema,\

@@ -5,6 +5,7 @@ import os
 
 # importando os elementos definidos no modelo
 from model.base import Base
+from model.marca import Marca
 from model.agendamento import Agendamento
 from model.cliente import Cliente
 from model.profissional import Profissional
