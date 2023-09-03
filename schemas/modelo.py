@@ -21,7 +21,8 @@ class ModeloViewSchema(BaseModel):
 class ModeloEditSchema(BaseModel):
     """Define como será recebido os dados para a edição """
     codigo: int = 1
-    nome: str = 'GM-EUA'    
+    nome: str = 'GM-EUA'  
+    marca_id: int = 44  
 
 
 class ModeloBuscaDelSchema(BaseModel):
@@ -43,14 +44,15 @@ def apresenta_modelo(modelo: Modelo):
         MarcaViewSchema.
     """
     return {
-        "codigo": modelo.cod_marca,
-        "nome": modelo.nom_marca
+        "codigo": modelo.cod_modelo,
+        "nome": modelo.nom_modelo,
+        "codigo_marca": modelo.cod_marca
     }
 
 
 
 def apresenta_lista_modelo(lista: List[Modelo]):
-    """ Retorna uma representação do agendamento seguindo o schema definido em
+    """ Retorna uma representação do modelo seguindo o schema definido em
         ModeloViewSchema.
 
     """
@@ -59,7 +61,8 @@ def apresenta_lista_modelo(lista: List[Modelo]):
        
         result.append({
             "codigo": item.cod_marca,
-            "nome": item.nom_marca
+            "nome": item.nom_marca,
+            "codigo_marca": item.cod_marca
         })
 
     return {"lista": result}    

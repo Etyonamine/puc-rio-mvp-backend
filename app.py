@@ -299,6 +299,7 @@ def upd_modelo(form: ModeloEditSchema):
     """Editar um modelo de veiculojá cadastrado na base """
     codigo_modelo = form.codigo
     nome_modelo = form.nome
+    codigo_marca = form.marca_id
 
     logger.debug(f"Editando a marca de veículo #{codigo_modelo}")
     try:
@@ -311,12 +312,13 @@ def upd_modelo(form: ModeloEditSchema):
         modelo = session.query(Modelo)\
                              .filter(Modelo.nom_marca ==  nome_modelo
                                 and Modelo.cod_marca != codigo_modelo
+                                and Modelo.cod_marca == codigo_marca
                              ).first()
 
         if modelo:
             # se foi encontrado retorna sem dar o commit
             error_msg = "Existe outro registro com\
-                         o mesmo nome!"
+                         o mesmo nome e marca!"
             logger.warning(
                 f"Erro ao editar a marca com o codigo #{codigo_modelo}, {error_msg}")
             return {"message": error_msg}, 400
