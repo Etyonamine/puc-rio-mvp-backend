@@ -9,13 +9,14 @@ class ModeloSchema(BaseModel):
     """Define como um novo registro de modelo de veículo será inserido """
     codigo: int = 1
     nome: str = "GM"
+ 
 
 
 class ModeloViewSchema(BaseModel):
     """ Define como uma modelo de veículo deverá retornado: modelo
     """
     codigo: int = 1
-    nome: str = "GM"   
+    nome: str = "GM"    
 
 
 class ModeloEditSchema(BaseModel):
@@ -27,7 +28,7 @@ class ModeloEditSchema(BaseModel):
 
 class ModeloBuscaDelSchema(BaseModel):
     """ Define como a estrutura que representa a busca de delete.Que será
-        feita apenas com o codigo do agendamento.
+        feita apenas com o codigo do  .
 
     """
     codigo: int = 1
@@ -36,8 +37,14 @@ class ModeloBuscaDelSchema(BaseModel):
 class ListaModelosSchema(BaseModel):
     """ Define como retorna a lista de marcas de veiculos.
     """
-    agendamentos: List[ModeloViewSchema]
+    modelos: List[ModeloViewSchema]
 
+class ModeloBuscaPorMarcaSchema(BaseModel):
+    """ Define como a estrutura que representa a busca de modelos 
+        que possuam o codigo da marca.
+
+    """
+    codigo_marca: int = 1
 
 def apresenta_modelo(modelo: Modelo):
     """ Retorna uma representação de um modelo de veiculo seguindo o schema definido em

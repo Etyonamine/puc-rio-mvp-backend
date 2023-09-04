@@ -7,7 +7,7 @@ from model import Base
 class VeiculoSchema(BaseModel):
     """Define como um novo veiculo deve ser inserido """    
     placa: str = "ABC-1234"
-    modelo_id: int = 1
+    modelo_id: int = 1    
    
 class VeiculoViewSchema(BaseModel):
     """ Define como uma veículo deverá retornado: modelo
@@ -15,6 +15,7 @@ class VeiculoViewSchema(BaseModel):
     codigo: int = 1
     placa: str = "ABC-1234"   
     codigo_modelo: int = 30
+    
 
 
 
@@ -27,19 +28,28 @@ class VeiculoEditSchema(BaseModel):
 
 class VeiculoBuscaDelSchema(BaseModel):
     """ Define como a estrutura que representa a busca de delete.Que será
-        feita apenas com o codigo do agendamento.
+        feita apenas com o codigo do  .
 
     """
     codigo: int = 1
 
 
+class VeiculoBuscaPorModelo(BaseModel):
+    """ Define como a estrutura que representa a busca de veiculos fará a
+        a busca através do código do modelo
+            
+
+    """
+    codigo_modelo: int = 1
+
+
 class ListaVeiculosSchema(BaseModel):
     """ Define como retorna a lista de veiculos.
     """
-    agendamentos: List[VeiculoViewSchema]
+    veiculos: List[VeiculoViewSchema]
 
 
-def apresenta_veiculos(veiculo: Veiculo):
+def apresenta_veiculo(veiculo: Veiculo):
     """ Retorna uma representação de um veiculo seguindo o schema definido em
         MarcaViewSchema.
     """

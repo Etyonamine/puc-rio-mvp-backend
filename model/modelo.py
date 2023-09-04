@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, Integer, ForeignKey
 from model import Base
 from sqlalchemy.orm import relationship
 
-
+    
 class Modelo(Base):
     __tablename__ = 'modelo'
     cod_modelo = Column("pk_modelo", Integer, primary_key=True)

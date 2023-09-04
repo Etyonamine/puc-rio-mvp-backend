@@ -6,10 +6,8 @@ import os
 # importando os elementos definidos no modelo
 from model.base import Base
 from model.marca import Marca
-from model.agendamento import Agendamento
-from model.cliente import Cliente
-from model.profissional import Profissional
-from model.servico import Servico
+from model.modelo import Modelo
+from model.veiculo import Veiculo
 
 db_path = "database/"
 # Verifica se o diretorio não existe

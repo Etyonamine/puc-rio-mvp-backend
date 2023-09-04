@@ -1,7 +1,7 @@
 from pydantic import BaseModel
-from model.marca import Marca
 from typing import List
 from model import Base
+from model.marca import Marca
 
 class MarcaSchema(BaseModel):
     """Define como um novo registro de marca de veículo será inserido """
