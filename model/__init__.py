@@ -6,6 +6,7 @@ import os
 # importando os elementos definidos no modelo
 from model.base import Base
 <<<<<<< HEAD
+<<<<<<< HEAD
 from model.marca import Marca
 from model.modelo import Modelo
 from model.veiculo import Veiculo
@@ -15,6 +16,11 @@ from model.cliente import Cliente
 from model.profissional import Profissional
 from model.servico import Servico
 >>>>>>> parent of 6fc6a5f (commit inicial)
+=======
+from model.marca import Marca
+from model.modelo import Modelo
+from model.veiculo import Veiculo
+>>>>>>> 081d82a12f484aa04136e06fdeb63577cd3c85d0
 
 db_path = "database/"
 # Verifica se o diretorio não existe
