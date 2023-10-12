@@ -78,7 +78,7 @@ def add_agendamento(form: AgendamentoSchema):
              data em: '{agendamento.data_agenda}'")
         return apresenta_agendamento(agendamento), 200
 
-    except IntegrityError as e:
+    except IntegrityError:
         # como a duplicidade do nome é a provável razão do IntegrityError
         error_msg = "Agendamento com a mesma data já salvo na base :/"
         logger.warning(
@@ -86,7 +86,7 @@ def add_agendamento(form: AgendamentoSchema):
             {agendamento.data_agenda}', {error_msg}")
         return {"message": error_msg}, 409
 
-    except Exception as e:
+    except Exception:
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo item :/"
         logger.warning(f"Erro ao adicionar cliente, {error_msg}")
@@ -181,7 +181,7 @@ def del_agendamento(form: AgendamentoBuscaDelSchema):
                 f"Erro ao excluir o agendamento do cliente do\
                  ID #'{id}', {error_msg}")
             return '', 404
-    except Exception as e:
+    except Exception:
         # caso um erro fora do previsto
         error_msg = "Não foi possível excluir o agendamento do cliente :/"
         logger.warning(
@@ -434,14 +434,14 @@ def add_cliente(form: ClienteSchema):
         logger.debug(f"Adicionado cliente de nome: '{cliente.nome}'")
         return apresenta_cliente(cliente), 200
 
-    except IntegrityError as e:
+    except IntegrityError:
         # como a duplicidade do nome é a provável razão do IntegrityError
         error_msg = "Cliente de mesmo nome já cadastrado na base de dados!"
         logger.warning(
             f"Erro ao adicionar cliente '{cliente.nome}', {error_msg}")
         return {"message": error_msg}, 409
 
-    except Exception as e:
+    except Exception:
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo item :/"
         logger.warning(
@@ -491,7 +491,7 @@ def put_cliente(form: ClienteViewSchema):
                     f"Erro ao editar o cliente '{nome}', {error_msg}")
                 return '', 404
 
-    except Exception as e:
+    except Exception:
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo item :/"
         logger.warning(
@@ -616,7 +616,7 @@ def add_profissional(form: ProfissionalSchema):
         logger.debug(f"Adicionado profissional de nome: '{profissional.nome}'")
         return apresenta_profissional(profissional), 200
 
-    except IntegrityError as e:
+    except IntegrityError:
         # como a duplicidade do nome é a provável razão do IntegrityError
         error_msg = "Profissional de mesmo nome já salvo na base :/"
         logger.warning(
@@ -624,7 +624,7 @@ def add_profissional(form: ProfissionalSchema):
             '{profissional.nome}', {error_msg}")
         return {"mesage": error_msg}, 409
 
-    except Exception as e:
+    except Exception:
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo item :/"
         logger.warning(
@@ -786,13 +786,13 @@ def post_servico(form: ServicoSchema):
             f"Adicionado o serviço com a descrição: '{servico.descricao}'\
               e valor = {servico.valor}")
         return apresenta_servico(servico), 201
-    except IntegrityError as e:
+    except IntegrityError:
         # como a duplicidade do nome é a provável razão do IntegrityError
         error_msg = "Serviço de mesma descrição já salvo na base :/"
         logger.warning(
             f"Erro ao adicionar o serviço '{servico.descricao}', {error_msg}")
         return {"mesage": error_msg}, 409
-    except Exception as e:
+    except Exception:
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo item :/"
         logger.warning(
